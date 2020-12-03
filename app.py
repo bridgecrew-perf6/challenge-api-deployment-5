@@ -1,5 +1,5 @@
-from flask import Flask, jsonify
-from flask import redirect, url_for, request
+import os
+from flask import Flask, request, jsonify
 
 app = Flask(__name__)
 
@@ -24,8 +24,8 @@ def get_expected_data_format():
         "garden-area": Optional[int],
         "equipped-kitchen": Optional[bool],
         "full-address": Optional[str],
-        "swimmingpool": Opional[bool],
-        "furnished": Opional[bool],
+        "swimmingpool": Optional[bool],
+        "furnished": Optional[bool],
         "open-fire": Optional[bool],
         "terrace": Optional[bool],
         "terrace-area": Optional[int],
@@ -51,5 +51,7 @@ def login():
     else:
         return get_expected_data_format()
 
-if __name__ == '__main__':
-    app.run(debug = True) 
+port = int(os.environ.get("PORT", 5000))
+
+if __name__=='__main__':
+    app.run(debug=True, host='0.0.0.0', port=port)
