@@ -43,6 +43,12 @@ def login():
     # POST
     if request.method == 'POST':
         data = request.get_json()
+
+        print('\n')
+        print(data)
+        print(type(data))
+        print('\n')
+
         data = preprocess_data(data)
         prediction = get_prediction(data)
         return jsonify(prediction)
