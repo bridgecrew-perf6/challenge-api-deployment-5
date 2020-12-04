@@ -74,51 +74,49 @@ Don't forget to provide an error if something went wrong (in this case, you can 
 
 
 #### Step 2: Pre-processing pipeline
-This python module will contain all the code to preprocess your data. Make sure to think about what will be the format of your data to fit the model.
+* Part done by Mikael.
+``This python module will contain all the code to preprocess your data. Make sure to think about what will be the format of your data to fit the model.
 Also, be sure to know which information HAVE to be there and which one can be empty (NAN).
 
 In `preprocessing` folder:
 * Create a file `cleaning_data.py` that will contain all the code that will be used to preprocess the data you will receive to predict a new price. (fill the nan, handle text data,...).
     * Your file should contain a function `preprocess()` that will take a new house's data as input and return those data preprocessed as output.
-    * If your data doesn't contain the required information, you should return an error to the user.
+    * If your data doesn't contain the required information, you should return an error to the user.``
 
 #### Step 3: Fit your data!
-Fit your data to your model.
+* Part done by Joachim & Mikael(?).
 
-In the `predict` folder:
+``In the `predict` folder:
 * Create a file `prediction.py` that will contain all the code used to predict a new house's price.
-    * Your file should contain a function `predict()` that will take your preprocessed data as an input and return a price as output.
+    * Your file should contain a function `predict()` that will take your preprocessed data as an input and return a price as output.``
 
 #### Step 4: Create your API
-In your `app.py` file, create a Flask API that contains:
+* Part done by Joachim.
+``In your `app.py` file, create a Flask API that contains:
 * A route at `/` that accept:
     * `GET` request and return "alive" if the server is alive.
 * A route at `/predict` that accept:
     * `POST` request that receives the data of a house in json format.
-    * `GET` request returning a string to explain what the `POST` expect (data and format).
+    * `GET` request returning a string to explain what the `POST` expect (data and format).``
 
 #### Step 5: Create a Dockerfile to wrap your API
-To deploy your API, you will use Docker.
-* Create a Dockerfile that creates an image with:
-    * Ubuntu
+* Part done by Sravanthi.
+    ``* Ubuntu
     * Python 3.8
     * Flask
     * All the other dependencies you will need
     * All the files of your project in an `/app` folder that you will previously create.
-* Run your `app.py` file with python
+* Run your `app.py` file with python``
 
 #### Step 6: Deploy your Docker image in Heroku
-Heroku will allow you to push your docker container on their server and to start it.
-
-You will find more explanation on the process [here](https://github.com/becodeorg/BXL-Bouman-2.22/tree/master/content/05.deployment/4.Web_Application).
-
-If you have an issue or need more information, the [heroku documentation](https://devcenter.heroku.com/articles/container-registry-and-runtime) is well made!
-
-**WARNING:** [As explained here](https://github.com/becodeorg/BXL-Bouman-2.22/tree/master/content/05.deployment/4.Web_Application), when you deploy on a service like Heroku, you will not want to expose your API on `localhost` because localhost is only reachable from inside the server, also, on some services, the port you will deploy on could be dynamic! In this case, they usually provide you an environment variable that contains the port you can use. (`PORT` on Heroku)
-
-
+* Part done by Dilara.
+   * Account creation.
+   * Sample testing the link between Heroku and Docker.
+   * Logging and solving ``P0RT`` issue.
+    
 
 #### Step 7: Document your API
+
 You will present your API to a group of web devs, make sure to create a clear readme to explain to them where your API is hosted and how to interact with it. Don't forget to mention:
     * What routes are available? With which methods?
     * What kind of data is expected (How should they be formatted? What is mandatory or not?)
