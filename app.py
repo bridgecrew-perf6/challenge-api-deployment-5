@@ -1,7 +1,14 @@
 import os
 from flask import Flask, request, jsonify
 
+from sklearn.preprocessing import MinMaxScaler
+
+from src.preprocessing import cleaning_data
+from src.model.modeling import Polynomial_regression_model
+
 app = Flask(__name__)
+
+model = Polynomial_regression_model('src/model/dataset.csv', MinMaxScaler(), 3)
 
 def get_prediction(data):
     output_example  = {
@@ -14,7 +21,8 @@ def preprocess_data(data):
     return data
 
 def get_expected_data_format():
-    data_format = """{
+    data_format = """Please make a POST request with a JSON object of this format:
+    {
         "area": int,
         "property-type": "APARTMENT" | "HOUSE" | "OTHERS",
         "rooms-number": int,
@@ -44,20 +52,15 @@ def login():
     if request.method == 'POST':
         data = request.get_json()
 
-        print('\n')
-        print(data)
-        print(type(data))
-        print('\n')
+        processed_features = cleaning_data.preprocess(data)
+        prediction = model.predict(processed_features)
 
-        data = preprocess_data(data)
-        prediction = get_prediction(data)
-        return jsonify(prediction)
+        return jsonify(prediction = prediction[0])
     
     # GET
     else:
         return get_expected_data_format()
 
-port = int(os.environ.get("PORT", 5000))
-
 if __name__=='__main__':
+    port = int(os.environ.get("PORT", 5000))
     app.run(debug=True, host='0.0.0.0', port=port)
