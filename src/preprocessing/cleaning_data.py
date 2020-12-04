@@ -18,5 +18,11 @@ def to_region(postcode):
         region = 'F'
     return region
 
+def all_mandatory_features(house_data, mandatory_features)
+    all_there = True
+    for feature in mandatory_features:
+        all_there = all_there and feature in house_data
+    return all_there
+
 # def preprocess(house_data):
 #     return processed_features
