@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
@@ -37,7 +36,7 @@ class Polynomial_regression_model:
     def predict( self, data_X):
         return self.model.predict(data_X) 
 
-#model = Polynomial_regression_model('src/model/dataset.csv', MinMaxScaler(), 3)
-#prediction = model.predict([[0.0, 0.00980392156862745, 0.009302325581395349, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0]])
 
-#print("my prediction :", prediction)
+# model = Polynomial_regression_model('src/model/dataset.csv', MinMaxScaler(), 3)
+# prediction = model.predict([[1.0, 4.0, 250.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0, 0.0]])
+# print("my prediction :", prediction)
