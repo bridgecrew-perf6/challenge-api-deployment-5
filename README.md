@@ -1,33 +1,95 @@
-# challenge-api-deployment
-Becode AI Project #5
+<!-- PROJECT LOGO -->
+<br />
+<p align="center">
+  <a href="https://github.com/github_username/repo_name">
+    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  </a>
 
-# API deployment
-
-* Repository: `challenge-api-deployment`
-* Type of Challenge: `Learning`
-* Duration: `5 days`
-* Deadline: `08/12/2020 17:00` **(code)**
-* Presentation: `14/12/2020 10:00`
-* Team challenge : 4
+  <h3 align="center">project_title</h3>
+</p>
 
 
-## Mission objectives 
-* Be able to deploy a machine learning model.
-* Be able to create a Flask API that can handle a machine learning model.
-* Deploy an API to Heroku with Docker.
 
-## The Mission
-The real estate company "ImmoEliza" is really happy about your regression model. They would like you to create an API to let their web-devs create a website around it.
+<!-- TABLE OF CONTENTS -->
+<details open="open">
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#about-the-project">About The Project</a>
+      <ul>
+        <li><a href="#built-with">Built With</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#prerequisites">Prerequisites</a></li>
+        <li><a href="#installation">Installation</a></li>
+      </ul>
+    </li>
+    <li><a href="#usage">Usage</a></li>
+    <li><a href="#authors">Authors</a></li>
+    <li><a href="#logbook">Logbook</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ol>
+</details>
 
-## Preparation
-In any API use case the first thing to decide *(for each route)*, is the **input** and the **output** you want.
-Your very first step will be to decide that.
 
-Here as you will work with a web dev team so you **don't want** to collect your data with a form provided by Flask.
-You want to get data in **json format** and to return the data in the same format.
 
-### Input
-Your input is:
+<!-- ABOUT THE PROJECT -->
+## About The Project
+
+Here's a blank template to get started:
+**To avoid retyping too much info. Do a search and replace with your text editor for the following:**
+`github_username`, `repo_name`, `twitter_handle`, `email`, `project_title`, `project_description`
+
+
+### Built With
+
+* []()
+* []()
+* []()
+
+
+
+<!-- GETTING STARTED -->
+## Getting Started
+
+To get a local copy up and running follow these simple steps.
+
+### Prerequisites
+
+This is an example of how to list things you need to use the software and how to install them.
+* npm
+  ```sh
+  npm install npm@latest -g
+  ```
+
+### Installation
+
+1. Clone the repo
+   ```sh
+   git clone https://github.com/github_username/repo_name.git
+   ```
+2. Install NPM packages
+   ```sh
+   npm install
+   ```
+
+
+
+<!-- USAGE EXAMPLES -->
+## Usage
+
+Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+
+_For more examples, please refer to the [Documentation](https://example.com)_
+
+
+
+
+### Input of the API
+
 ```json
 {
     "data": {
@@ -50,11 +112,10 @@ Your input is:
     }
 }
 ```
-Don't forget to specify which param will be required or not.
 
-### Output
-Your output should look something like that:
-**(This is an example, you will need to decide the format of the prediction (float or string))**
+
+### Output of the API
+
 ```json
 {
     "prediction": Optional[float],
@@ -64,16 +125,25 @@ Your output should look something like that:
 Don't forget to provide an error if something went wrong (in this case, you can also provide an HTTP status code. For more information about that, check the [Flask documentation](https://www.flaskapi.org/api-guide/status-codes/).)
 
 
-### Must-have features
-#### Step 1: Project preparation
-* Create a folder to handle your project.
-* Create a file `app.py` that will contain the code for your API.
-* Create a folder `preprocessing` that will contain all the code to preprocess your data.
-* Create a folder `model` that will contain your model.
-* Create a folder `predict` that will contain all the code to predict a price.
 
 
-#### Step 2: Pre-processing pipeline
+<!-- Authors -->
+## Authors
+* **Dilara Parry**
+* **Sravanthi**
+* **Joachim Kotek**
+* **Mikael Dominguez** - *BeCoder and Dancer* - [Wiiki](https://github.com/wiiki09)
+
+
+
+<!-- Logbook -->
+## Logbook
+
+### Project preparation
+
+
+
+#### Pre-processing pipeline
 This python module will contain all the code to preprocess your data. Make sure to think about what will be the format of your data to fit the model.
 Also, be sure to know which information HAVE to be there and which one can be empty (NAN).
 
@@ -82,14 +152,13 @@ In `preprocessing` folder:
     * Your file should contain a function `preprocess()` that will take a new house's data as input and return those data preprocessed as output.
     * If your data doesn't contain the required information, you should return an error to the user.
 
-#### Step 3: Fit your data!
-Fit your data to your model.
+#### Fit the data
 
 In the `predict` folder:
 * Create a file `prediction.py` that will contain all the code used to predict a new house's price.
     * Your file should contain a function `predict()` that will take your preprocessed data as an input and return a price as output.
 
-#### Step 4: Create your API
+#### Creation of the API
 In your `app.py` file, create a Flask API that contains:
 * A route at `/` that accept:
     * `GET` request and return "alive" if the server is alive.
@@ -97,7 +166,7 @@ In your `app.py` file, create a Flask API that contains:
     * `POST` request that receives the data of a house in json format.
     * `GET` request returning a string to explain what the `POST` expect (data and format).
 
-#### Step 5: Create a Dockerfile to wrap your API
+#### Dockerfile to wrap the API
 To deploy your API, you will use Docker.
 * Create a Dockerfile that creates an image with:
     * Ubuntu
@@ -107,7 +176,14 @@ To deploy your API, you will use Docker.
     * All the files of your project in an `/app` folder that you will previously create.
 * Run your `app.py` file with python
 
-#### Step 6: Deploy your Docker image in Heroku
+#### Deploy Docker image in Heroku
+
+* Part done by Dilara.
+
+   * Account creation.
+   * Sample testing the link between Heroku and Docker.
+   * Logging and solving ``P0RT`` issue.
+
 Heroku will allow you to push your docker container on their server and to start it.
 
 You will find more explanation on the process [here](https://github.com/becodeorg/BXL-Bouman-2.22/tree/master/content/05.deployment/4.Web_Application).
@@ -118,7 +194,7 @@ If you have an issue or need more information, the [heroku documentation](https:
 
 
 
-#### Step 7: Document your API
+#### API document
 You will present your API to a group of web devs, make sure to create a clear readme to explain to them where your API is hosted and how to interact with it. Don't forget to mention:
     * What routes are available? With which methods?
     * What kind of data is expected (How should they be formatted? What is mandatory or not?)
@@ -128,26 +204,29 @@ You will present your API to a group of web devs, make sure to create a clear re
 * Be ready to answer their questions.
 
 
-## Deliverables
-1. Pimp up the readme file:
-    * What, Why, When, How, Who.
-    * Pending things to do
-2. Use Docker to wrap your API
-3. Your API is deployed on Heroku
 
-## Evaluation criterias
-| Criteria       | Indicator                                                                             | Yes/No |
-|----------------|---------------------------------------------------------------------------------------|--------|
-| 1. Is complete | Your API works                                                                        |   [ ]  |
-|                | Your API is wrapped in a Docker image                                                 |   [ ]  |
-|                | Pimp up the readme. (what, why, how, who)                                              |   [ ]  |
-|                | Your model predict                                                                    |   [ ]  |
-|                | Your API is deployed on Heroku                                                        |   [ ]  |
-| 2. Is good     | The repo doesn't contain unnecessary files.                                           |   [ ]  |
-|                | You used typing.                                                                      |   [ ]  |
-|                | The presentation is clean.                                                            |   [ ]  |
-|                | The web-dev group understood well how your API works.                                 |   [ ]  |
+<!-- CONTACT -->
+## Contact
+
+Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email
+
+Project Link: [https://github.com/jotwo/challenge-api-deployment](https://github.com/jotwo/challenge-api-deployment)
 
 
 
-![You've got this!](https://media.giphy.com/media/YSTLV9MkR248Qvxjz3/giphy.gif)
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
+[contributors-shield]: https://img.shields.io/github/contributors/github_username/repo.svg?style=for-the-badge
+[contributors-url]: https://github.com/github_username/repo/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/github_username/repo.svg?style=for-the-badge
+[forks-url]: https://github.com/github_username/repo/network/members
+[stars-shield]: https://img.shields.io/github/stars/github_username/repo.svg?style=for-the-badge
+[stars-url]: https://github.com/github_username/repo/stargazers
+[issues-shield]: https://img.shields.io/github/issues/github_username/repo.svg?style=for-the-badge
+[issues-url]: https://github.com/github_username/repo/issues
+[license-shield]: https://img.shields.io/github/license/github_username/repo.svg?style=for-the-badge
+[license-url]: https://github.com/github_username/repo/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/github_username
