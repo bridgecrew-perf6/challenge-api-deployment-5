@@ -210,7 +210,7 @@ You will present your API to a group of web devs, make sure to create a clear re
 
 Your Name - [@twitter_handle](https://twitter.com/twitter_handle) - email
 
-Project Link: [https://github.com/github_username/repo_name](https://github.com/github_username/repo_name)
+Project Link: [https://github.com/jotwo/challenge-api-deployment](https://github.com/jotwo/challenge-api-deployment)
 
 
 
