@@ -179,6 +179,13 @@ To deploy your API, you will use Docker.
 * Run your `app.py` file with python
 
 #### Deploy Docker image in Heroku
+
+* Part done by Dilara.
+
+   * Account creation.
+   * Sample testing the link between Heroku and Docker.
+   * Logging and solving ``P0RT`` issue.
+
 Heroku will allow you to push your docker container on their server and to start it.
 
 You will find more explanation on the process [here](https://github.com/becodeorg/BXL-Bouman-2.22/tree/master/content/05.deployment/4.Web_Application).
