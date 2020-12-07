@@ -41,7 +41,7 @@
 
 This is the 5th project assigned during [Becode](https://becode.org/)'s AI bootcamp in Brussels. Based on previous projects where we had to scrap Belgian real estate websites, collect the data, clean it and then create a model to predict the prices of other properties, we have to build and deploy an API for one particular model.
 
-This project is more about the deployment than it is about the model. For further discussion, please refer to [this](link/to/modeling/project).
+This project is more about the deployment than it is about the model. For further discussion, please refer to [this repository](https://github.com/wiiki09/real_estate_regression).
 
 
 ### Built With
@@ -77,13 +77,32 @@ This is an example of how to list things you need to use the software and how to
    ```
 
 
+## API
 
-<!-- USAGE EXAMPLES -->
-## Usage
+Our REST API is deployed on Heroku, using a Docker container. It is available at [this address](https://link/to/api).
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+Now, let's describe our simple little API's routes and endpoints and the different HTTP methods that can be used.
 
-### Input of the API
+### `/`
+
+This route is used with a `GET` method and returns a string "alive" in case the server is running and alive.
+
+### `/predict`
+
+There are two endpoints for this route. The most important one is reached with a `POST` method but it is also accessible with a `GET` method. Let's further discuss these methods.
+
+#### `GET`
+
+This endpoint does not need any input. It returns a string explaining the input data and their format that the `POST` method expects.
+
+
+#### `POST`
+
+This endpoint is the main one of this API. With it, you will be able to query a price prediction giving abritrary real estate property features. It needs and returns specifically formatted inputs and outputs that will be described below.
+
+##### **Input**
+
+The input is given in a JSON notation of this particular format:
 
 ```json
 {
@@ -97,8 +116,8 @@ Use this space to show useful examples of how a project can be used. Additional 
             "garden-area": Optional[int],
             "equipped-kitchen": Optional[bool],
             "full-address": Optional[str],
-            "swimmingpool": Opional[bool],
-            "furnished": Opional[bool],
+            "swimmingpool": Optional[bool],
+            "furnished": Optional[bool],
             "open-fire": Optional[bool],
             "terrace": Optional[bool],
             "terrace-area": Optional[int],
@@ -108,26 +127,41 @@ Use this space to show useful examples of how a project can be used. Additional 
 }
 ```
 
+As you can see, the input is wrapped in an object associated to the attribute `data`. 
+Inside `data`, not all the fields are mandatory. The optional ones are clearly tagged and can be ommitted in a request. The names are pretty much self-explanatory.
 
-### Output of the API
+##### **Output**
+
+The general output of this endpoint can be described with this JSON notation:
 
 ```json
 {
-    "prediction": Optional[float],
+    "prediction": Optional {
+        "price": [float],
+        "r2_score":[float]
+    }
     "error": Optional[str]
 }
 ```
-Don't forget to provide an error if something went wrong (in this case, you can also provide an HTTP status code. For more information about that, check the [Flask documentation](https://www.flaskapi.org/api-guide/status-codes/).)
 
+Both attributes `prediction` and `error` are optional and are in fact mutually exclusive: you either receive a prediction _or_ an error message.
+
+* `prediction` itself contains itself two fields: 
+    * `price`: this key is associated to the price predicted by our model
+    * `r2_score`: this key is associated to the estimate of the model's R² score (coefficient of determination) based on a segregated test set. Its purpose is to estimate the accuracy of the underlying model in general and can be ignored if not needed
+
+* `error` itself are telling the API's user that he didn't post the input data as expected and can take two forms:
+    * "features_missing_error": mandatory features were ommitted in the JSON input thus our model can't make a prediction
+    * "formatting_error": general error for formatting issues, more particularily it is because input data was not wrapped inside an object associated with the key `data`
 
 
 
 <!-- Authors -->
 ## Authors
-* **Dilara Parry**
-* **Sravanthi**
-* **Joachim Kotek**
-* **Mikael Dominguez** - *BeCoder and Dancer* - [Wiiki](https://github.com/wiiki09)
+* [**Sravanthi Tarani**](https://github.com/sravanthiai) - *BeCoder* 
+* [**Dilara Parry**](https://github.com/trickydaze/) - *BeCoder* 
+* [**Joachim Kotek**](https://github.com/jotwo/) - *BeCoder* 
+* [**Mikael Dominguez**](https://github.com/wiiki09) - *BeCoder and Dancer* 
 
 
 
