@@ -51,7 +51,7 @@ def login():
             processed_features, featuresMissing = cleaning_data.preprocess(property_data)
 
             if featuresMissing:
-                response = jsonify(error='features_missing')
+                response = jsonify(error='features_missing_error')
 
             else:
                 predicted_price = model.predict_single_point(processed_features)

@@ -5,15 +5,33 @@ warnings.filterwarnings('ignore')
 
 class Preprocess :
 
+
     @staticmethod
-    def preprocess_csv_dataset(path_csv_file : str) :
+    def preprocess_csv_dataset(path_csv_file : str) -> None :
+        """
+        This method create a new csv with clean data used by the model
 
+        Args:
+            path_csv_file (str): The path of the csv who most be cleaned
+        """
 
-        def dummy(col, df):
+        def dummy(col : str, df) -> None:
+            """
+            This method create new columns from different values of a column
+
+            Args:
+                col (str): The column target
+                df (Dataframe): The dataframe who will receive the columns
+
+            Returns:
+                df (Dataframe): The old dataframe with news columns added 
+            """
+
             col_enc = pd.get_dummies(df[col])
             
             df = pd.concat([df, col_enc], axis=1)
             
+            #When the new columns are create we can delete the old coulumn
             df.drop([col], axis=1, inplace=True)
             
             return df
