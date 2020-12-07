@@ -1,11 +1,11 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/github_username/repo_name">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  <a href="https://github.com/jotwo/challenge-api-deployment/">
+    <img src="https://www.flaticon.com/svg/static/icons/svg/262/262815.svg" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">project_title</h3>
+  <h3 align="center">Belgian Real Estate Price Prediction API deployment</h3>
 </p>
 
 
@@ -39,9 +39,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Here's a blank template to get started:
-**To avoid retyping too much info. Do a search and replace with your text editor for the following:**
-`github_username`, `repo_name`, `twitter_handle`, `email`, `project_title`, `project_description`
+This is the 5th project assigned during [Becode](https://becode.org/)'s AI bootcamp in Brussels. Based on previous projects where we had to scrap Belgian real estate websites, collect the data, clean it and then create a model to predict the prices of other properties, we have to build and deploy an API for one particular model.
+
+This project is more about the deployment than it is about the model. For further discussion, please refer to [this](link/to/modeling/project).
 
 
 ### Built With
@@ -82,11 +82,6 @@ This is an example of how to list things you need to use the software and how to
 ## Usage
 
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-
-
 
 ### Input of the API
 
