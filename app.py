@@ -28,7 +28,7 @@ def get_expected_data_format() -> str:
             "swimmingpool": Optional[bool],
             "furnished": Optional[bool],
             "open-fire": Optional[bool],
-            "  terrace": Optional[bool],
+            "terrace": Optional[bool],
             "terrace-area": Optional[int],
             "facades-number": Optional[int],
             "building-state": Optional["NEW" | "GOOD" | "TO RENOVATE" | "JUST RENOVATED" | "TO REBUILD"]

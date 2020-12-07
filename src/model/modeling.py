@@ -35,7 +35,7 @@ class Polynomial_regression_model:
         """
         return self.test_r2_score
     
-    def predict(self, data_X) -> list(float):
+    def predict(self, data_X) -> np.array:
         """
         Predict the prices of the dataframe.  
 
