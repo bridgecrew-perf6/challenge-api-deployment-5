@@ -8,7 +8,11 @@ from src.model.modeling import Polynomial_regression_model
 
 app = Flask(__name__)
 
-def get_expected_data_format():
+def get_expected_data_format() -> str:
+    """Returns the expected format of the POST method input
+    Returns:
+        The expected format
+    """
     data_format = """Please make a POST request with a JSON object of this format:
     {
         "data": {
@@ -24,7 +28,7 @@ def get_expected_data_format():
             "swimmingpool": Optional[bool],
             "furnished": Optional[bool],
             "open-fire": Optional[bool],
-            "  terrace": Optional[bool],
+            "terrace": Optional[bool],
             "terrace-area": Optional[int],
             "facades-number": Optional[int],
             "building-state": Optional["NEW" | "GOOD" | "TO RENOVATE" | "JUST RENOVATED" | "TO REBUILD"]
@@ -33,11 +37,21 @@ def get_expected_data_format():
     return data_format
 
 @app.route('/', methods = ['GET'])
-def alive():
+def alive() -> str:
+    """'/' route function
+    Returns:
+        'alive'
+    """
     return 'alive'
 
 @app.route('/predict', methods = ['POST', 'GET'])
-def login():
+def prediction() -> dict:
+    """'/predict' route function for the 'POST' and 'GET'
+    Args:
+        postcode (str): Belgian postal code
+    Returns:
+        JSON object as the output of the 'POST' request or the expected format of the 'POST' input for the 'GET' request
+    """
     # POST
     if request.method == 'POST':
         data = request.get_json()
@@ -72,4 +86,4 @@ if __name__ == '__main__':
     model = Polynomial_regression_model('src/model/dataset.csv', RobustScaler(), 3)
 
     port = int(os.environ.get("PORT", 5000))
-    app.run(debug=True, host='0.0.0.0', port=port)
+    app.run(debug=False, host='0.0.0.0', port=port)

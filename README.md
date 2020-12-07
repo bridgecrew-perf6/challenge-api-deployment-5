@@ -171,21 +171,20 @@ Both attributes `prediction` and `error` are optional and are in fact mutually e
 ### Project preparation
 
 
+#### In `model` folder:
 
-#### Pre-processing pipeline
-This python module will contain all the code to preprocess your data. Make sure to think about what will be the format of your data to fit the model.
-Also, be sure to know which information HAVE to be there and which one can be empty (NAN).
+##### Pre-processing data
 
-In `preprocessing` folder:
-* Create a file `cleaning_data.py` that will contain all the code that will be used to preprocess the data you will receive to predict a new price. (fill the nan, handle text data,...).
-    * Your file should contain a function `preprocess()` that will take a new house's data as input and return those data preprocessed as output.
-    * If your data doesn't contain the required information, you should return an error to the user.
+`data_cleaning.py` :
 
-#### Fit the data
+This class clean the data from the dataset used and create a new dataset that will be the format of your data to fit the model.
 
-In the `predict` folder:
-* Create a file `prediction.py` that will contain all the code used to predict a new house's price.
-    * Your file should contain a function `predict()` that will take your preprocessed data as an input and return a price as output.
+##### Modeling
+
+`modeling.py` :
+
+This class create a model from the clean dataset, the scaler and the degree we want for the PolynomialFeatures.
+With the model created we can predict the price from estate and give the score of the prediction.
 
 #### Creation of the API
 In your `app.py` file, create a Flask API that contains:
