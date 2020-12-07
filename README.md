@@ -28,7 +28,7 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#authors">Authors</a></li>
+    <li><a href="#api">API</a></li>
     <li><a href="#logbook">Logbook</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
