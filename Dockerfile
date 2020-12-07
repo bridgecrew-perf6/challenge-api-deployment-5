@@ -1,6 +1,16 @@
-FROM python:3
+FROM python
+COPY requirements.txt .
+RUN pip install --upgrade -r requirements.txt
 
-COPY . /app
+
+RUN mkdir /app
+RUN mkdir /app/src
+
+
+COPY src/model /app/src/model
+COPY src/preprocessing /app/src/preprocessing
+COPY app.py /app/app.py
+
 WORKDIR /app
-RUN pip install -r requirements.txt
-CMD ["python", "app.py"]
+
+CMD ["python","app.py"]
