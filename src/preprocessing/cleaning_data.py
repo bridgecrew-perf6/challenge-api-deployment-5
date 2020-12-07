@@ -1,18 +1,32 @@
 import numpy as np
 
+# definitions of mandatory and optional features names
 mandatory_features = ['property-type', 'area', 'rooms-number', 'zip-code']
 optional_features = ['land-area', 'garden', 'garden-area', 'equipped-kitchen',
     'full-address', 'swimmingpool', 'furnished', 'open-fire', 'terrace',
     'terrace-area', 'facades-number', 'building-state']
 
 
-def all_mandatory_features_there(property_data, mandatory_features):
+def all_mandatory_features_there(property_data: dict , mandatory_features: list) -> bool:
+    """Checks if no mandatory feature is ommitted
+    Args:
+        property_data: the features of a property
+        mandatory_features: the names of the mandatory features for the prediction
+    Returns:
+        True if all the mandatory features are there, False otherwise
+    """
     all_there = True
     for feature in mandatory_features:
         all_there = all_there and feature in property_data
     return all_there
 
-def to_region(postcode):
+def to_region(postcode: str) -> str:
+    """Converts a Belgian postal code to the corresponding region
+    Args:
+        postcode (str): Belgian postal code
+    Returns:
+        Letter corresponding to the region
+    """
     #casting: 'str' -> 'int' if necessary
     postcode = int(postcode)
     #'B' -> Brussels-Capital Region
@@ -26,7 +40,14 @@ def to_region(postcode):
         region = 'F'
     return region
 
-def preprocess(property_data):
+def preprocess(property_data: dict) -> (np.ndarray, bool):
+    """Preprocesses the property features
+    Args:
+        property_data: feature of a real estate property
+    Returns:
+        array containing the processed features
+         
+    """
     final_features = np.empty(10)
     featuresMissing = False
 
