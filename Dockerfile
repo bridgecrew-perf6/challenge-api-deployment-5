@@ -1,6 +1,6 @@
 FROM python
 COPY requirements.txt .
-RUN pip install --upgrade -r requirements.txt
+RUN pip3 install --upgrade -r requirements.txt
 
 
 RUN mkdir /app
