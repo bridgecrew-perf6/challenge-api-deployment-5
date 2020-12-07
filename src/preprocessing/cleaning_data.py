@@ -27,48 +27,57 @@ def to_region(postcode):
     return region
 
 def preprocess(property_data):
-    #shape (1,2) is expected by the prediction model
-    final_features = np.empty(10).reshape(1,-1)
+    final_features = np.empty(10)
+    featuresMissing = False
 
-    #final_features[0][0] => house_is
-    final_features[0][0] = np.float64(0) if property_data['property-type'] != 'HOUSE' else np.float64(1)
-    #final_features[1] => rooms_number
-    final_features[0][1] = np.float64(property_data['rooms-number'])
-    #final_features[0][2] => area 
-    final_features[0][2] = np.float64(property_data['area'])
-    #final_features[0][3] => equipped_kitchen_has
-    final_features[0][3] = np.float64(1) if property_data['equipped-kitchen'] else np.float64(0)
-    #final_features[0][4] => B
-    #final_features[0][5] => F
-    #final_features[0][6] => W 
-    region = to_region(property_data['zip-code'])
-    if region == 'B':
-        final_features[0][4] = np.float64(1)
-        final_features[0][5] = np.float64(0)
-        final_features[0][6] = np.float64(0)
-    elif region == 'F':
-        final_features[0][4] = np.float64(0)
-        final_features[0][5] = np.float64(1)
-        final_features[0][6] = np.float64(0)
-    else:
-        final_features[0][4] = np.float64(0)
-        final_features[0][5] = np.float64(0)
-        final_features[0][6] = np.float64(1)
-    #final_features[0][7] => good
-    #final_features[0][8] => renovated
-    #final_features[0][9] => to_renovate
-    if property_data['building-state'] == 'GOOD':
-        final_features[0][7] = np.float64(1)
-        final_features[0][8] = np.float64(0)
-        final_features[0][9] = np.float64(0)
-    elif property_data['building-state'] == 'TO RENOVATE' or property_data['building-state'] == 'TO REBUILD':
-        final_features[0][7] = np.float64(0)
-        final_features[0][8] = np.float64(0)
-        final_features[0][9] = np.float64(1)
-    #elif property_data['building-state'] == 'JUST RENOVATED' or property_data['building-state'] == 'NEW':
-    else:
-        final_features[0][7] = np.float64(0)
-        final_features[0][8] = np.float64(1)
-        final_features[0][9] = np.float64(0)
+    if all_mandatory_features_there(property_data, mandatory_features):
+        #final_features[0] => house_is
+        final_features[0] = np.float64(0) if property_data['property-type'] != 'HOUSE' else np.float64(1)
+        #final_features[1] => rooms_number
+        final_features[1] = np.float64(property_data['rooms-number'])
+        #final_features[2] => area 
+        final_features[2] = np.float64(property_data['area'])
+        #final_features[4] => B
+        #final_features[5] => F
+        #final_features[6] => W 
+        region = to_region(property_data['zip-code'])
+        if region == 'B':
+            final_features[4] = np.float64(1)
+            final_features[5] = np.float64(0)
+            final_features[6] = np.float64(0)
+        elif region == 'F':
+            final_features[4] = np.float64(0)
+            final_features[5] = np.float64(1)
+            final_features[6] = np.float64(0)
+        else:
+            final_features[4] = np.float64(0)
+            final_features[5] = np.float64(0)
+            final_features[6] = np.float64(1)
+        #final_features[7] => good
+        #final_features[8] => renovated
+        #final_features[9] => to_renovate
+        if property_data['building-state'] == 'GOOD':
+            final_features[7] = np.float64(1)
+            final_features[8] = np.float64(0)
+            final_features[9] = np.float64(0)
+        elif property_data['building-state'] == 'TO RENOVATE' or property_data['building-state'] == 'TO REBUILD':
+            final_features[7] = np.float64(0)
+            final_features[8] = np.float64(0)
+            final_features[9] = np.float64(1)
+        #elif property_data['building-state'] == 'JUST RENOVATED' or property_data['building-state'] == 'NEW':
+        else:
+            final_features[7] = np.float64(0)
+            final_features[8] = np.float64(1)
+            final_features[9] = np.float64(0)
+        
+        if 'equipped-kitchen' in property_data:
+            #final_features[3] => equipped_kitchen_has
+            final_features[3] = np.float64(1) if property_data['equipped-kitchen'] else np.float64(0)
+        else:
+            # we tag a non given optionial features with np.nan
+            final_features[3] = np.nan
     
-    return final_features
+    else:
+        featuresMissing = True
+    
+    return final_features, featuresMissing
