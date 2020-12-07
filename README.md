@@ -177,8 +177,7 @@ Both attributes `prediction` and `error` are optional and are in fact mutually e
 
 `data_cleaning.py` :
 
-This class clean the data from the dataset used and create a new dataset
-that will be the format of your data to fit the model.
+This class clean the data from the dataset used and create a new dataset that will be the format of your data to fit the model.
 
 ##### Modeling
 
