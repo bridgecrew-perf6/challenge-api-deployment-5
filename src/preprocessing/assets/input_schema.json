@@ -7,14 +7,14 @@
     "properties": {"property-type": {"type": "string",
                                      "enum": ["HOUSE", "APARTMENT", "OTHERS"]
                                     },
-                   "area": {"type": "number"},
-                   "rooms-number": {"type": "number"},
-                   "zip-code": {"type": "number"},
+                   "area": {"type": "integer"},
+                   "rooms-number": {"type": "integer"},
+                   "zip-code": {"type": "integer"},
                    "garden": {"type": "boolean"},
-                   "garden-area": {"type": "number"},
+                   "garden-area": {"type": "integer"},
                    "terrace": {"type": "boolean"},
-                   "terrace-area": {"type": "number"},
-                   "facades-number": {"type": "number"},
+                   "terrace-area": {"type": "integer"},
+                   "facades-number": {"type": "integer"},
                    "building-state": {"type": "string",
                                       "enum": ["NEW", "GOOD", "TO RENOVATE", "JUST RENOVATED", "TO REBUILD"]
                                      },
@@ -22,7 +22,7 @@
                    "furnished": {"type": "boolean"},
                    "open-fire": {"type": "boolean"},
                    "swimmingpool": {"type": "boolean"},
-                   "land-area": {"type": "number"},
+                   "land-area": {"type": "integer"},
                    "full-address": {"type": "string"}
                   }
 }
