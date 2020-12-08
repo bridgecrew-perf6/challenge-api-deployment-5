@@ -46,9 +46,12 @@ This project is more about the deployment than it is about the model. For furthe
 
 ### Built With
 
-* []()
-* []()
-* []()
+* [Python](https://www.python.org/)
+* [Numpy](https://numpy.org/)
+* [Pandas](https://pandas.pydata.org/)
+* [Scikit-learn](https://scikit-learn.org/)
+* [Docker](https://www.docker.com/)
+* [Heroku](https://www.heroku.com/)
 
 
 
