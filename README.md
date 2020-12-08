@@ -242,23 +242,6 @@ To deploy your API, you will use Docker.
 
 #### Deploy Docker image in Heroku
 
-* Part done by Dilara.
-
-   * Account creation.
-   * Sample testing the link between Heroku and Docker.
-   * Logging and solving ``P0RT`` issue.
-
-Heroku will allow you to push your docker container on their server and to start it.
-
-You will find more explanation on the process [here](https://github.com/becodeorg/BXL-Bouman-2.22/tree/master/content/05.deployment/4.Web_Application).
-
-If you have an issue or need more information, the [heroku documentation](https://devcenter.heroku.com/articles/container-registry-and-runtime) is well made!
-
-**WARNING:** [As explained here](https://github.com/becodeorg/BXL-Bouman-2.22/tree/master/content/05.deployment/4.Web_Application), when you deploy on a service like Heroku, you will not want to expose your API on `localhost` because localhost is only reachable from inside the server, also, on some services, the port you will deploy on could be dynamic! In this case, they usually provide you an environment variable that contains the port you can use. (`PORT` on Heroku)
-
-
---------------------------------------------------------
-
 * **Preparation for Heroku:**
   * After completing the API part, firstly ```requirements.txt``` file is built with mandatory libraries to run the API. 
   * In order to wrap the API as a Docker container, Dockerfile is created with required Python version, ``app.py`` file and install the requirements using the ```requirements.txt```.
