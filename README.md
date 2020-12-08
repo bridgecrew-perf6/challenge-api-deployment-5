@@ -61,17 +61,17 @@ This project is more about the deployment than it is about the model. For furthe
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To get a local copy up and running follow these simple steps.
+To work with this API, you have two options. Either work directly with the API at the URL specified in the API subsection below, either build it yourself from the sources and deploy it in a Docker container on Heroku as it is explained in the next subsection.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+You'll need the packages/software described above.
 
 ### Installation
+
+#### DOCKER
+
+
 
 #### HEROKU
 
