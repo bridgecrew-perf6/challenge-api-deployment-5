@@ -55,7 +55,7 @@ def prediction():
     if request.method == 'POST':
         property_data = request.get_json()
 
-        input_valid = cleaning_data.validate_JSON(property_data, "src/preprocessing/assets/input_schema.json")
+        input_valid = cleaning_data.validate_JSON(property_data, "./assets/input_schema.json")
 
         if not input_valid[0]:
             # modification of error string to make it readable in one line
