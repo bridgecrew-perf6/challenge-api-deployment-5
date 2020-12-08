@@ -231,14 +231,23 @@ In your `app.py` file, create a Flask API that contains:
     * `GET` request returning a string to explain what the `POST` expect (data and format).
 
 #### Dockerfile to wrap the API
-To deploy your API, you will use Docker.
-* Create a Dockerfile that creates an image with:
+
+
+The way to get our Python code running in a container is to pack it as a Docker image and then run a container based on it.
+
+To generate a Docker image we need to create a Dockerfile which contains instructions needed to build the image. The Dockerfile is then processed by the Docker builder which generates the Docker image. 
+
+* The Dockerfile creates an image with:
     * Ubuntu
     * Python 3.8
     * Flask
+    * Gunicorn
+    * Sklearn
+    * Pandas
+    * Numpy
     * All the other dependencies you will need
-    * All the files of your project in an `/app` folder that you will previously create.
-* Run your `app.py` file with python
+
+For each instruction or command from the Dockerfile, the Docker builder generates an image layer and stacks it upon the previous ones. Therefore, the Docker image resulting from the process is simply a read-only stack of different layers.
 
 #### Deploy Docker image in Heroku
 
