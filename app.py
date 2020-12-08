@@ -15,29 +15,27 @@ def get_expected_data_format() -> str:
     """
     data_format = """Please make a POST request with a JSON object of this format:
     {
-        "data": {
-            "area": int,
-            "property-type": "APARTMENT" | "HOUSE" | "OTHERS",
-            "rooms-number": int,
-            "zip-code": int,
-            "land-area": Optional[int],
-            "garden": Optional[bool],
-            "garden-area": Optional[int],
-            "equipped-kitchen": Optional[bool],
-            "full-address": Optional[str],
-            "swimmingpool": Optional[bool],
-            "furnished": Optional[bool],
-            "open-fire": Optional[bool],
-            "terrace": Optional[bool],
-            "terrace-area": Optional[int],
-            "facades-number": Optional[int],
-            "building-state": Optional["NEW" | "GOOD" | "TO RENOVATE" | "JUST RENOVATED" | "TO REBUILD"]
-        }
+        "property-type": "APARTMENT" | "HOUSE" | "OTHERS",
+        "area": int,
+        "rooms-number": int,
+        "zip-code": int,
+        "garden": Optional[bool],
+        "garden-area": Optional[int],
+        "terrace": Optional[bool],
+        "terrace-area": Optional[int],
+        "facades-number": Optional[int],
+        "building-state": Optional["NEW" | "GOOD" | "TO RENOVATE" | "JUST RENOVATED" | "TO REBUILD"],
+        "equipped-kitchen": Optional[bool],
+        "furnished": Optional[bool],
+        "open-fire": Optional[bool],
+        "swimmingpool": Optional[bool],
+        "land-area": Optional[int],
+        "full-address": Optional[str]
     }"""
     return data_format
 
 @app.route('/', methods = ['GET'])
-def alive() -> str:
+def alive():
     """'/' route function
     Returns:
         'alive'
@@ -45,42 +43,45 @@ def alive() -> str:
     return 'alive'
 
 @app.route('/predict', methods = ['POST', 'GET'])
-def prediction() -> dict:
+def prediction():
     """'/predict' route function for the 'POST' and 'GET'
     Args:
         postcode (str): Belgian postal code
     Returns:
-        JSON object as the output of the 'POST' request or the expected format of the 'POST' input for the 'GET' request
+        JSON object and HTTP status code as the output of the 'POST' request 
+        or the expected format of the 'POST' input for the 'GET' request
     """
     # POST
     if request.method == 'POST':
-        data = request.get_json()
+        property_data = request.get_json()
 
-        if 'data' not in data:
-            response = jsonify(error='formatting_error')
-        
+        input_valid = cleaning_data.validate_JSON(property_data, "src/preprocessing/assets/input_schema.json")
+
+        if not input_valid[0]:
+            # modification of error string to make it readable in one line
+            error_message = str(input_valid[1])
+            error_message = error_message.replace('\n\n', '    ')
+            error_message = error_message.replace('\n', ' ')
+
+            response = jsonify(error=error_message), 400
+
         else:
-            property_data = data['data']
+            processed_features = cleaning_data.preprocess(property_data)
 
-            processed_features, featuresMissing = cleaning_data.preprocess(property_data)
+            predicted_price = model.predict_single_point(processed_features)
+            prediction = {
+                'price': predicted_price,
+                'r2_score': model.get_test_r2_score()
+            }
+            
+            response = jsonify(prediction=prediction), 200
+    
 
-            if featuresMissing:
-                response = jsonify(error='features_missing_error')
-
-            else:
-                predicted_price = model.predict_single_point(processed_features)
-                prediction = {
-                    'price': predicted_price,
-                    'r2_score': model.get_test_r2_score()
-                }
-                
-                response = jsonify(prediction=prediction)
+        return response
     
     # GET
     else:
-        response = get_expected_data_format()
-    
-    return response
+        return get_expected_data_format()
 
 if __name__ == '__main__':
     model = Polynomial_regression_model('src/model/dataset.csv', RobustScaler(), 3)
