@@ -2,7 +2,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/jotwo/challenge-api-deployment/">
-    <img src="https://www.flaticon.com/svg/static/icons/svg/262/262815.svg" alt="Logo" width="80" height="80">
+    <img src="assets/immo_logo.svg" alt="Logo" width="150" height="150">
   </a>
 
   <h3 align="center">Belgian Real Estate Price Prediction API deployment</h3>
