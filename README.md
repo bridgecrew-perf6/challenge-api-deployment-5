@@ -72,9 +72,12 @@ This is an example of how to list things you need to use the software and how to
 
 #### HEROKU
 
-* **Preparation for Heroku:**
-  * 
-
+* **Install the Heroku CLI:**
+  * The Heroku Command Line Interface (CLI) makes it easy to create and manage your Heroku apps directly from the terminal.
+It’s an essential part of using Heroku.
+  ```sh
+  sudo snap install --classic heroku
+  ```
 * **Deployment on Heroku:**
   * Heroku favours Heroku CLI therefore using command line is (ensure the CLI is up-to-date) crucial at this step.
   * After logging in to the respective Heroku account, the container needs to be registered with Heroku using 
