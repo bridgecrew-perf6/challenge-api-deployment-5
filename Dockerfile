@@ -14,7 +14,7 @@ COPY src/preprocessing /app/src/preprocessing
 COPY app.py /app/app.py
 WORKDIR /app
 
-CMD ["python","app.py"]
+CMD ["python3","app.py"]
 
 
 
