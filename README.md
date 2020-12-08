@@ -5,7 +5,9 @@
     <img src="assets/immo_logo.svg" alt="Logo" width="150" height="150">
   </a>
 
-  <h3 align="center">Belgian Real Estate Price Prediction API deployment</h3>
+  <h3 align="center">Belgian Real Estate Price Prediction
+  
+   API deployment</h3>
 </p>
 
 
@@ -47,6 +49,7 @@ This project is more about the deployment than it is about the model. For furthe
 ### Built With
 
 * [Python](https://www.python.org/)
+* [JSON Schema](https://json-schema.org/)
 * [Numpy](https://numpy.org/)
 * [Pandas](https://pandas.pydata.org/)
 * [Scikit-learn](https://scikit-learn.org/)
@@ -82,7 +85,7 @@ This is an example of how to list things you need to use the software and how to
 
 ## API
 
-Our REST API is deployed on Heroku, using a Docker container. It is available at [this address](https://link/to/api).
+Our REST API is deployed on Heroku, using a Docker container. It is available at [this address](https://predict-keras-api.herokuapp.com/).
 
 Now, let's describe our simple little API's routes and endpoints and the different HTTP methods that can be used.
 
@@ -128,8 +131,7 @@ The input is given in a JSON notation of this particular format:
 }
 ```
 
-As you can see, the input is wrapped in an object associated to the attribute `data`. 
-Inside `data`, not all the fields are mandatory. The optional ones are clearly tagged and can be ommitted in a request. The names are pretty much self-explanatory.
+As you can see, not all the fields are mandatory. The optional ones are clearly tagged and can be ommitted in a request. The names are pretty much self-explanatory.
 
 ##### **Output**
 
@@ -149,12 +151,15 @@ Both attributes `prediction` and `error` are optional and are in fact mutually e
 
 * `prediction` itself contains itself two fields: 
     * `price`: this key is associated to the price predicted by our model
-    * `r2_score`: this key is associated to the estimate of the model's R² score (coefficient of determination) based on a segregated test set. Its purpose is to estimate the accuracy of the underlying model in general and can be ignored if not needed
+    * `r2_score`: this key is associated to the estimate of the model's R² score (coefficient of determination) based on a segregated test set. Its purpose is to estimate the accuracy of the underlying model in general and can be ignored if not needed.
+    
+    It is sent back along with a HTTP status code `200 OK`.
 
-* `error` itself are telling the API's user that he didn't post the input data as expected and can take two forms:
-    * "features_missing_error": mandatory features were ommitted in the JSON input thus our model can't make a prediction
-    * "formatting_error": general error for formatting issues, more particularily it is because input data was not wrapped inside an object associated with the key `data`
+* `error` warns the client that it didn't post the input data as expected. It could be because of a mandatory attribute missing (such as `zip-code`) or wrong typing (such as floating number for `area` instead of an integer). All these errors are detected using **JSON Schema** validation according to the schema specified in [`assets/input_schema.json`](assets/input_schema.json).
 
+    `error` contains a one-line string representation of the validation error that was produced using the JSON Schema package.
+    
+    It is sent back along with a HTTP status code `400 Bad Request`.
 
 
 <!-- Authors -->
