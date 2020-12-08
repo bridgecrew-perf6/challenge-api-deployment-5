@@ -25,10 +25,8 @@ def validate_JSON(json_to_test: dict, json_schema_filepath: str) -> tuple:
     try:
         jsonschema.validate(json_to_test, schema)
     except Exception as valid_err:
-        # raise valid_err
         return (False, valid_err)
     else:
-        # print("JSON validé")
         return (True, None)
 
 
