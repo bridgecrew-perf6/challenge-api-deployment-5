@@ -70,22 +70,10 @@ This is an example of how to list things you need to use the software and how to
 
 ### Installation
 
-1. Clone the repo
-   ```sh
-   git clone https://github.com/github_username/repo_name.git
-   ```
-2. Install NPM packages
-   ```sh
-   npm install
-   ```
-
-## HEROKU
+#### HEROKU
 
 * **Preparation for Heroku:**
-  * After completing the API part, firstly ```requirements.txt``` file is built with mandatory libraries to run the API. 
-  * In order to wrap the API as a Docker container, Dockerfile is created with required Python version, ``app.py`` file and install the requirements using the ```requirements.txt```.
-  * For Heroku to interpret which server and Flask direction to use, Procfile is created to use _app_ for Flask and _gunicorn_ on the web server.
-  * Lastly, runtime.txt is important to signal Heroku which exact language and which version to use. In our case ```python 3.7.6```.
+  * 
 
 * **Deployment on Heroku:**
   * Heroku favours Heroku CLI therefore using command line is (ensure the CLI is up-to-date) crucial at this step.
@@ -260,6 +248,14 @@ If you have an issue or need more information, the [heroku documentation](https:
 
 **WARNING:** [As explained here](https://github.com/becodeorg/BXL-Bouman-2.22/tree/master/content/05.deployment/4.Web_Application), when you deploy on a service like Heroku, you will not want to expose your API on `localhost` because localhost is only reachable from inside the server, also, on some services, the port you will deploy on could be dynamic! In this case, they usually provide you an environment variable that contains the port you can use. (`PORT` on Heroku)
 
+
+--------------------------------------------------------
+
+* **Preparation for Heroku:**
+  * After completing the API part, firstly ```requirements.txt``` file is built with mandatory libraries to run the API. 
+  * In order to wrap the API as a Docker container, Dockerfile is created with required Python version, ``app.py`` file and install the requirements using the ```requirements.txt```.
+  * For Heroku to interpret which server and Flask direction to use, Procfile is created to use _app_ for Flask and _gunicorn_ on the web server.
+  * Lastly, runtime.txt is important to signal Heroku which exact language and which version to use. In our case ```python 3.7.6```.
 
 
 <!-- CONTACT -->
