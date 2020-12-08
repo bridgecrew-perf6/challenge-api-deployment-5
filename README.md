@@ -222,17 +222,6 @@ If you have an issue or need more information, the [heroku documentation](https:
 
 
 
-#### API document
-You will present your API to a group of web devs, make sure to create a clear readme to explain to them where your API is hosted and how to interact with it. Don't forget to mention:
-    * What routes are available? With which methods?
-    * What kind of data is expected (How should they be formatted? What is mandatory or not?)
-    * What is the output of each route in case of success? What is the output in case of error?
-* You have to make a nice presentation **with a professional design** for them.
-* You should not show them your code.
-* Be ready to answer their questions.
-
-
-
 <!-- CONTACT -->
 ## Contact
 
