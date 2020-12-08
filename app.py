@@ -16,22 +16,22 @@ def get_expected_data_format() -> str:
     data_format = """Please make a POST request with a JSON object of this format:
     {
         "data": {
-            "area": int,
             "property-type": "APARTMENT" | "HOUSE" | "OTHERS",
+            "area": int,
             "rooms-number": int,
             "zip-code": int,
-            "land-area": Optional[int],
             "garden": Optional[bool],
             "garden-area": Optional[int],
-            "equipped-kitchen": Optional[bool],
-            "full-address": Optional[str],
-            "swimmingpool": Optional[bool],
-            "furnished": Optional[bool],
-            "open-fire": Optional[bool],
             "terrace": Optional[bool],
             "terrace-area": Optional[int],
             "facades-number": Optional[int],
-            "building-state": Optional["NEW" | "GOOD" | "TO RENOVATE" | "JUST RENOVATED" | "TO REBUILD"]
+            "building-state": Optional["NEW" | "GOOD" | "TO RENOVATE" | "JUST RENOVATED" | "TO REBUILD"],
+            "equipped-kitchen": Optional[bool],
+            "furnished": Optional[bool],
+            "open-fire": Optional[bool],
+            "swimmingpool": Optional[bool],
+            "land-area": Optional[int],
+            "full-address": Optional[str]
         }
     }"""
     return data_format

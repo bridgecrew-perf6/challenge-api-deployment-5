@@ -1,0 +1,28 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "title": "Input JSON Schema",
+    "description": "JSON Schema for input POST request on route /predict",
+    "type": "object",
+    "required": ["property-type", "area", "rooms-number", "zip-code"],
+    "properties": {"property-type": {"type": "string",
+                                     "enum": ["HOUSE", "APARTMENT", "OTHERS"]
+                                    },
+                   "area": {"type": "number"},
+                   "rooms-number": {"type": "number"},
+                   "zip-code": {"type": "number"},
+                   "garden": {"type": "boolean"},
+                   "garden-area": {"type": "number"},
+                   "terrace": {"type": "boolean"},
+                   "terrace-area": {"type": "number"},
+                   "facades-number": {"type": "number"},
+                   "building-state": {"type": "string",
+                                      "enum": ["NEW", "GOOD", "TO RENOVATE", "JUST RENOVATED", "TO REBUILD"]
+                                     },
+                   "equipped-kitchen": {"type": "boolean"},
+                   "furnished": {"type": "boolean"},
+                   "open-fire": {"type": "boolean"},
+                   "swimmingpool": {"type": "boolean"},
+                   "land-area": {"type": "number"},
+                   "full-address": {"type": "string"}
+                  }
+}

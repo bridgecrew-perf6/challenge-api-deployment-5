@@ -1,5 +1,7 @@
 import numpy as np
 
+import jsonschema
+
 # definitions of mandatory and optional features names
 mandatory_features = ['property-type', 'area', 'rooms-number', 'zip-code']
 optional_features = ['land-area', 'garden', 'garden-area', 'equipped-kitchen',
@@ -102,3 +104,5 @@ def preprocess(property_data: dict) -> (np.ndarray, bool):
         featuresMissing = True
     
     return final_features, featuresMissing
+
+# def validateJSON(JSONschema_filepath):
