@@ -79,6 +79,45 @@ This is an example of how to list things you need to use the software and how to
    npm install
    ```
 
+## HEROKU
+
+* **Preparation for Heroku:**
+  * After completing the API part, firstly ```requirements.txt``` file is built with mandatory libraries to run the API. 
+  * In order to wrap the API as a Docker container, Dockerfile is created with required Python version, ``app.py`` file and install the requirements using the ```requirements.txt```.
+  * For Heroku to interpret which server and Flask direction to use, Procfile is created to use _app_ for Flask and _gunicorn_ on the web server.
+  * Lastly, runtime.txt is important to signal Heroku which exact language and which version to use. In our case ```python 3.7.6```.
+
+* **Deployment on Heroku:**
+  * Heroku favours Heroku CLI therefore using command line is (ensure the CLI is up-to-date) crucial at this step.
+  * After logging in to the respective Heroku account, the container needs to be registered with Heroku using 
+  ```sh
+  heroku container:login
+  ```
+  * Once the container has been registered, a Heroku repo would be required to push the container which could be created : 
+  ```sh
+  heroku create <yourapplicationname>
+  ```
+  **NOTE**: If there is no name stated after '_create_', a random name will be assigned.
+  
+  * When there is an application repo to push the container, it is time to push the container to web : 
+  ```sh
+  heroku container:push web --app <yourapplicationname>
+  ```
+  * Following the 'container:push' , the container should be released on web to be visible with 
+  ```sh
+  heroku container:release web -app <yourapplicationname>
+  ```
+  * If the container has been released properly, it is available to see using 
+  ```sh
+  heroku open --app <yourapplicationname>
+  ```
+  * Logging is also critical especially if the application is experiencing errors : 
+  ```sh
+  heroku logs --tail <yourapplicationname>
+  ```
+
+
+**IMPORTANT NOTE:** While with _localhost_ and _Docker_ it is not mandatory to specify the PORT, if one would like to deploy on Heroku, the port needs to be specified within the 'app.py' to avoid crashes.
 
 ## API
 
