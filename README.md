@@ -69,10 +69,6 @@ You'll need the packages/software described above.
 
 ### Installation
 
-#### DOCKER
-
-
-
 #### HEROKU
 
 * **Install the Heroku CLI:**
@@ -187,7 +183,7 @@ Both attributes `prediction` and `error` are optional and are in fact mutually e
 
 * `error` warns the client that it didn't post the input data as expected. It could be because of a mandatory attribute missing (such as `zip-code`) or wrong typing (such as floating number for `area` instead of an integer). All these errors are detected using **JSON Schema** validation according to the schema specified in [`assets/input_schema.json`](assets/input_schema.json).
 
-    `error` contains a one-line string representation of the validation error that was produced using the JSON Schema package.
+    `error` contains a one-line string representation of the validation error that was produced using the JSON Schema package. It is written in human understandable English.
     
     It is sent back along with a HTTP status code `400 Bad Request`.
 
