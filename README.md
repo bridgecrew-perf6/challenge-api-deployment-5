@@ -69,10 +69,6 @@ You'll need the packages/software described above.
 
 ### Installation
 
-#### DOCKER
-
-
-
 #### HEROKU
 
 * **Install the Heroku CLI:**
@@ -142,26 +138,28 @@ The input is given in a JSON notation of this particular format:
 
 ```json
 {
-    "property-type": "APARTMENT" | "HOUSE" | "OTHERS",
-    "area": int,
-    "rooms-number": int,
-    "zip-code": int,
-    "garden": Optional[bool],
-    "garden-area": Optional[int],
-    "terrace": Optional[bool],
-    "terrace-area": Optional[int],
-    "facades-number": Optional[int],
-    "building-state": Optional["NEW" | "GOOD" | "TO RENOVATE" | "JUST RENOVATED" | "TO REBUILD"],
-    "equipped-kitchen": Optional[bool],
-    "furnished": Optional[bool],
-    "open-fire": Optional[bool],
-    "swimmingpool": Optional[bool],
-    "land-area": Optional[int],
-    "full-address": Optional[str]
+    "data": {
+        "property-type": "APARTMENT" | "HOUSE" | "OTHERS",
+        "area": int,
+        "rooms-number": int,
+        "zip-code": int,
+        "garden": Optional[bool],
+        "garden-area": Optional[int],
+        "terrace": Optional[bool],
+        "terrace-area": Optional[int],
+        "facades-number": Optional[int],
+        "building-state": Optional["NEW" | "GOOD" | "TO RENOVATE" | "JUST RENOVATED" | "TO REBUILD"],
+        "equipped-kitchen": Optional[bool],
+        "furnished": Optional[bool],
+        "open-fire": Optional[bool],
+        "swimmingpool": Optional[bool],
+        "land-area": Optional[int],
+        "full-address": Optional[str]
+    }
 }
 ```
 
-As you can see, not all the fields are mandatory. The optional ones are clearly tagged and can be ommitted in a request. The names are pretty much self-explanatory.
+As you can see, the input is wrapped in an object associated to the property `data`. Inside this object, not all the fields are mandatory. The optional ones are clearly tagged and can be ommitted in a request. The names are pretty much self-explanatory.
 
 ##### **Output**
 
@@ -187,7 +185,7 @@ Both attributes `prediction` and `error` are optional and are in fact mutually e
 
 * `error` warns the client that it didn't post the input data as expected. It could be because of a mandatory attribute missing (such as `zip-code`) or wrong typing (such as floating number for `area` instead of an integer). All these errors are detected using **JSON Schema** validation according to the schema specified in [`assets/input_schema.json`](assets/input_schema.json).
 
-    `error` contains a one-line string representation of the validation error that was produced using the JSON Schema package.
+    `error` contains a one-line string representation of the validation error that was produced using the JSON Schema package. It is written in human understandable English.
     
     It is sent back along with a HTTP status code `400 Bad Request`.
 
