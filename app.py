@@ -15,22 +15,24 @@ def get_expected_data_format() -> str:
     """
     data_format = """Please make a POST request with a JSON object of this format:
     {
-        "property-type": "APARTMENT" | "HOUSE" | "OTHERS",
-        "area": int,
-        "rooms-number": int,
-        "zip-code": int,
-        "garden": Optional[bool],
-        "garden-area": Optional[int],
-        "terrace": Optional[bool],
-        "terrace-area": Optional[int],
-        "facades-number": Optional[int],
-        "building-state": Optional["NEW" | "GOOD" | "TO RENOVATE" | "JUST RENOVATED" | "TO REBUILD"],
-        "equipped-kitchen": Optional[bool],
-        "furnished": Optional[bool],
-        "open-fire": Optional[bool],
-        "swimmingpool": Optional[bool],
-        "land-area": Optional[int],
-        "full-address": Optional[str]
+        "data": {
+            "property-type": "APARTMENT" | "HOUSE" | "OTHERS",
+            "area": int,
+            "rooms-number": int,
+            "zip-code": int,
+            "garden": Optional[bool],
+            "garden-area": Optional[int],
+            "terrace": Optional[bool],
+            "terrace-area": Optional[int],
+            "facades-number": Optional[int],
+            "building-state": Optional["NEW" | "GOOD" | "TO RENOVATE" | "JUST RENOVATED" | "TO REBUILD"],
+            "equipped-kitchen": Optional[bool],
+            "furnished": Optional[bool],
+            "open-fire": Optional[bool],
+            "swimmingpool": Optional[bool],
+            "land-area": Optional[int],
+            "full-address": Optional[str]
+        }
     }"""
     return data_format
 
@@ -53,9 +55,9 @@ def prediction():
     """
     # POST
     if request.method == 'POST':
-        property_data = request.get_json()
+        data = request.get_json()
 
-        input_valid = cleaning_data.validate_JSON(property_data, "./assets/input_schema.json")
+        input_valid = cleaning_data.validate_JSON(data, "./assets/input_schema.json")
 
         if not input_valid[0]:
             # modification of error string to make it readable in one line
@@ -66,7 +68,7 @@ def prediction():
             response = jsonify(error=error_message), 400
 
         else:
-            processed_features = cleaning_data.preprocess(property_data)
+            processed_features = cleaning_data.preprocess(data)
 
             predicted_price = model.predict_single_point(processed_features)
             prediction = {
