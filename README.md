@@ -138,26 +138,28 @@ The input is given in a JSON notation of this particular format:
 
 ```json
 {
-    "property-type": "APARTMENT" | "HOUSE" | "OTHERS",
-    "area": int,
-    "rooms-number": int,
-    "zip-code": int,
-    "garden": Optional[bool],
-    "garden-area": Optional[int],
-    "terrace": Optional[bool],
-    "terrace-area": Optional[int],
-    "facades-number": Optional[int],
-    "building-state": Optional["NEW" | "GOOD" | "TO RENOVATE" | "JUST RENOVATED" | "TO REBUILD"],
-    "equipped-kitchen": Optional[bool],
-    "furnished": Optional[bool],
-    "open-fire": Optional[bool],
-    "swimmingpool": Optional[bool],
-    "land-area": Optional[int],
-    "full-address": Optional[str]
+    "data": {
+        "property-type": "APARTMENT" | "HOUSE" | "OTHERS",
+        "area": int,
+        "rooms-number": int,
+        "zip-code": int,
+        "garden": Optional[bool],
+        "garden-area": Optional[int],
+        "terrace": Optional[bool],
+        "terrace-area": Optional[int],
+        "facades-number": Optional[int],
+        "building-state": Optional["NEW" | "GOOD" | "TO RENOVATE" | "JUST RENOVATED" | "TO REBUILD"],
+        "equipped-kitchen": Optional[bool],
+        "furnished": Optional[bool],
+        "open-fire": Optional[bool],
+        "swimmingpool": Optional[bool],
+        "land-area": Optional[int],
+        "full-address": Optional[str]
+    }
 }
 ```
 
-As you can see, not all the fields are mandatory. The optional ones are clearly tagged and can be ommitted in a request. The names are pretty much self-explanatory.
+As you can see, the input is wrapped in an object associated to the property `data`. Inside this object, not all the fields are mandatory. The optional ones are clearly tagged and can be ommitted in a request. The names are pretty much self-explanatory.
 
 ##### **Output**
 
