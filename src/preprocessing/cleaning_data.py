@@ -16,11 +16,6 @@ def validate_JSON(json_to_test: dict, json_schema_filepath: str) -> tuple:
     """
     with open(json_schema_filepath, "r") as file:
         schema = json.load(file)
-        
-    # print(json_to_test)
-    # print(type(json_to_test))
-    # print(schema)
-    # print(type(schema))
 
     try:
         jsonschema.validate(json_to_test, schema)
@@ -37,11 +32,11 @@ def to_region(postcode: str) -> str:
     Returns:
         Letter corresponding to the region
     """
-    #casting: 'str' -> 'int' if necessary
+    # casting: 'str' -> 'int' if necessary
     postcode = int(postcode)
-    #'B' -> Brussels-Capital Region
-    #'W' -> Walloon Region
-    #'F' -> Flemish Region
+    # 'B' -> Brussels-Capital Region
+    # 'W' -> Walloon Region
+    # 'F' -> Flemish Region
     if 1000 <= postcode and postcode <= 1299:
         region = 'B'
     elif (1300 <= postcode and postcode <= 1499) or (4000 <= postcode and postcode <= 7999):
@@ -50,14 +45,16 @@ def to_region(postcode: str) -> str:
         region = 'F'
     return region
 
-def preprocess(property_data: dict) -> (np.ndarray, bool):
+def preprocess(data: dict) -> (np.ndarray, bool):
     """Preprocesses the property features
     Args:
-        property_data: feature of a real estate property
+        data: feature of a real estate property already verified to be correctly formatted
     Returns:
         array containing the processed features
          
     """
+    property_data = data['data']
+
     final_features = np.empty(10)
 
     #final_features[0] => house_is
@@ -82,28 +79,32 @@ def preprocess(property_data: dict) -> (np.ndarray, bool):
         final_features[4] = np.float64(0)
         final_features[5] = np.float64(0)
         final_features[6] = np.float64(1)
-    #final_features[7] => good
-    #final_features[8] => renovated
-    #final_features[9] => to_renovate
-    if property_data['building-state'] == 'GOOD':
-        final_features[7] = np.float64(1)
-        final_features[8] = np.float64(0)
-        final_features[9] = np.float64(0)
-    elif property_data['building-state'] == 'TO RENOVATE' or property_data['building-state'] == 'TO REBUILD':
-        final_features[7] = np.float64(0)
-        final_features[8] = np.float64(0)
-        final_features[9] = np.float64(1)
-    #elif property_data['building-state'] == 'JUST RENOVATED' or property_data['building-state'] == 'NEW':
-    else:
-        final_features[7] = np.float64(0)
-        final_features[8] = np.float64(1)
-        final_features[9] = np.float64(0)
     
+    # checking if optionnal 'equipped-kitchen' was given before using it
     if 'equipped-kitchen' in property_data:
-        #final_features[3] => equipped_kitchen_has
+        # final_features[3] => equipped_kitchen_has
         final_features[3] = np.float64(1) if property_data['equipped-kitchen'] else np.float64(0)
     else:
         # we tag a non given optionial features with np.nan
         final_features[3] = np.nan
+    
+    # checking if optionnal 'building-state' was given before using it
+    # final_features[7] => good
+    # final_features[8] => renovated
+    # final_features[9] => to_renovate
+    if 'building-state' in property_data:
+        if property_data['building-state'] == 'GOOD':
+            final_features[7] = np.float64(1)
+            final_features[8] = np.float64(0)
+            final_features[9] = np.float64(0)
+        elif property_data['building-state'] == 'TO RENOVATE' or property_data['building-state'] == 'TO REBUILD':
+            final_features[7] = np.float64(0)
+            final_features[8] = np.float64(0)
+            final_features[9] = np.float64(1)
+        # elif property_data['building-state'] == 'JUST RENOVATED' or property_data['building-state'] == 'NEW':
+        else:
+            final_features[7] = np.float64(0)
+            final_features[8] = np.float64(1)
+            final_features[9] = np.float64(0)
     
     return final_features

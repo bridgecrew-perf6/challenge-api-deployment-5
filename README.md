@@ -61,7 +61,7 @@ This project is more about the deployment than it is about the model. For furthe
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To work with this API, you have two options. Either work directly with the API at the URL specified in the API subsection below, either build it yourself from the sources and deploy it in a Docker container on Heroku as it is explained in the next subsection.
+To work with this API, you have two options. Either work directly with the API at [this URL](https://predict-keras-api.herokuapp.com/), either build it yourself from the sources and deploy it in a Docker container on Heroku as it is explained in the next subsection.
 
 ### Prerequisites
 
