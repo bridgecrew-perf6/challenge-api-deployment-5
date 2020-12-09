@@ -32,7 +32,7 @@
     <li><a href="#usage">Usage</a></li>
     <li><a href="#api">API</a></li>
     <li><a href="#logbook">Logbook</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#authors">Authors</a></li>
   </ol>
 </details>
 
@@ -193,15 +193,6 @@ Both attributes `prediction` and `error` are optional and are in fact mutually e
     It is sent back along with a HTTP status code `400 Bad Request`.
 
 
-<!-- Authors -->
-## Authors
-* [**Sravanthi Tarani**](https://github.com/sravanthiai) - *BeCoder* 
-* [**Dilara Parry**](https://github.com/trickydaze/) - *BeCoder* 
-* [**Joachim Kotek**](https://github.com/jotwo/) - *BeCoder* 
-* [**Mikael Dominguez**](https://github.com/wiiki09) - *BeCoder and Dancer* 
-
-
-
 <!-- Logbook -->
 ## Logbook
 
@@ -262,12 +253,14 @@ For each instruction or command from the Dockerfile, the Docker builder generate
   * Lastly, runtime.txt is important to signal Heroku which exact language and which version to use. In our case ```python 3.7.6```.
 
 
-<!-- CONTACT -->
-## Contact
+<!-- Authors -->
+## Authors
+* [**Sravanthi Tarani**](https://github.com/sravanthiai) - *BeCoder* 
+* [**Dilara Parry**](https://github.com/trickydaze/) - *BeCoder* 
+* [**Joachim Kotek**](https://github.com/jotwo/) - *BeCoder* 
+* [**Mikael Dominguez**](https://github.com/wiiki09) - *BeCoder and Dancer*
 
 Project Link: [https://github.com/jotwo/challenge-api-deployment](https://github.com/jotwo/challenge-api-deployment)
-
-
 
 
 
