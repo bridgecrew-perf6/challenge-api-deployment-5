@@ -13,26 +13,26 @@ def get_expected_data_format() -> str:
     Returns:
         The expected format
     """
-    data_format = """Please make a POST request with a JSON object of this format:
-    {
-        "data": {
-            "property-type": "APARTMENT" | "HOUSE" | "OTHERS",
-            "area": int,
-            "rooms-number": int,
-            "zip-code": int,
-            "garden": Optional[bool],
-            "garden-area": Optional[int],
-            "terrace": Optional[bool],
-            "terrace-area": Optional[int],
-            "facades-number": Optional[int],
-            "building-state": Optional["NEW" | "GOOD" | "TO RENOVATE" | "JUST RENOVATED" | "TO REBUILD"],
-            "equipped-kitchen": Optional[bool],
-            "furnished": Optional[bool],
-            "open-fire": Optional[bool],
-            "swimmingpool": Optional[bool],
-            "land-area": Optional[int],
-            "full-address": Optional[str]
-        }
+    data_format = """Please make a POST request with a JSON object of this format:<br><br>
+    {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;"data": {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"property-type": "APARTMENT" | "HOUSE" | "OTHERS",<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"area": int,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"rooms-number": int,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"zip-code": int,<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"garden": Optional[bool],<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"garden-area": Optional[int],<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"terrace": Optional[bool],<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"terrace-area": Optional[int],<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"facades-number": Optional[int],<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"building-state": Optional["NEW" | "GOOD" | "TO RENOVATE" | "JUST RENOVATED" | "TO REBUILD"],<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"equipped-kitchen": Optional[bool],<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"furnished": Optional[bool],<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"open-fire": Optional[bool],<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"swimmingpool": Optional[bool],<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"land-area": Optional[int],<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"full-address": Optional[str]<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;}<br>
     }"""
     return data_format
 
