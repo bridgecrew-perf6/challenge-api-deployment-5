@@ -78,7 +78,10 @@ It’s an essential part of using Heroku.
   sudo snap install --classic heroku
   ```
 * **Deployment on Heroku:**
-  * Heroku favours Heroku CLI therefore using command line is (ensure the CLI is up-to-date) crucial at this step.
+  * Heroku favours Heroku CLI therefore using command line is (ensure the CLI is up-to-date) crucial at this step. 
+  ```sh
+  heroku login
+  ```
   * After logging in to the respective Heroku account, the container needs to be registered with Heroku using 
   ```sh
   heroku container:login
