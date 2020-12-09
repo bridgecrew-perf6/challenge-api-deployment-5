@@ -180,7 +180,7 @@ The general output of this endpoint can be described with this JSON notation:
 
 Both attributes `prediction` and `error` are optional and are in fact mutually exclusive: you either receive a prediction _or_ an error message.
 
-* `prediction` itself contains itself two fields: 
+* `prediction` contains itself two fields: 
     * `price`: this key is associated to the price predicted by our model
     * `r2_score`: this key is associated to the estimate of the model's R² score (coefficient of determination) based on a segregated test set. Its purpose is to estimate the accuracy of the underlying model in general and can be ignored if not needed.
     
@@ -208,13 +208,13 @@ Both attributes `prediction` and `error` are optional and are in fact mutually e
 ### Project preparation
 
 
-#### In `model` folder:
+#### In `model` directory:
 
-##### Pre-processing data
+##### Processing original data
 
-`data_cleaning.py` :
+`features_selection.py` :
 
-This class clean the data from the dataset used and create a new dataset that will be the format of your data to fit the model.
+This class prepares the data from the original dataset used and create a new dataset in which all the right features are selected and correctly formatted to fit our regression model
 
 ##### Modeling
 
@@ -223,13 +223,15 @@ This class clean the data from the dataset used and create a new dataset that wi
 This class create a model from the clean dataset, the scaler and the degree we want for the PolynomialFeatures.
 With the model created we can predict the price from estate and give the score of the prediction.
 
-#### Creation of the API
-In your `app.py` file, create a Flask API that contains:
-* A route at `/` that accept:
-    * `GET` request and return "alive" if the server is alive.
-* A route at `/predict` that accept:
-    * `POST` request that receives the data of a house in json format.
-    * `GET` request returning a string to explain what the `POST` expect (data and format).
+#### In `preprocesing` directory:
+
+`cleaning_data.py` :
+
+This module contains utility functions to validate, clean/preprocess and then select the features of an input data point (_i.e._ a property whose price has to be predicted) to feed the model.
+
+#### `app.py`:
+
+This is the main module of our server. It defines a basic REST API of several routes as explained above in the section about the API.
 
 #### Dockerfile to wrap the API
 
@@ -240,13 +242,14 @@ To generate a Docker image we need to create a Dockerfile which contains instruc
 
 * The Dockerfile creates an image with:
     * Ubuntu
-    * Python 3.8
+    * Python
     * Flask
     * Gunicorn
     * Sklearn
     * Pandas
     * Numpy
-    * All the other dependencies you will need
+    * JSON Schema
+    * Other dependencies needed
 
 For each instruction or command from the Dockerfile, the Docker builder generates an image layer and stacks it upon the previous ones. Therefore, the Docker image resulting from the process is simply a read-only stack of different layers.
 
