@@ -15,6 +15,8 @@ import json
 
 import pandas as pd
 
+import pickle
+
 
 class ImmoWebScraper:
 
@@ -22,12 +24,18 @@ class ImmoWebScraper:
         # The url of each property that resulted from the search will be stored in the "property_url" list.
         self.properties_urls = []
         self.properties_dicts = []
-        self.properties = pd.DataFrame(columns=['price', 'type_property', 'subtype_property', 'area',
+        self.properties_df = pd.DataFrame(columns=['price', 'type_property', 'subtype_property', 'area',
                                                 'num_rooms', 'postal_code', 'garden', 'garden_area',
                                                 'terrace', 'terrace_area', 'num_facade', 'building_state',
                                                 'equipped_kitchen', 'furnished', 'open_fire',
                                                 'land_area'])
-
+    
+    def get_properties_df(self) -> pd.DataFrame:
+        return self.properties_df.copy(deep=True)
+    
+    def pickle_properties_df(self) -> None:
+        with open('src/scraping/properties_df.pickle', 'wb') as file:
+            pickle.dump(self.properties_df, file)
     
     def scrape_properties_urls(self) -> None:
         # We choose to not show the browser GUI to scrape faster
@@ -84,7 +92,7 @@ class ImmoWebScraper:
         for i, property_url in enumerate(self.properties_urls):
             property_dict = ImmoWebScraper.scrape_unique_property_data(property_url)
             self.properties_dicts[i] = property_dict
-            self.properties = self.properties.append(property_dict, ignore_index=True)
+            self.properties_df = self.properties_df.append(property_dict, ignore_index=True)
     
     @staticmethod
     def scrape_unique_property_data(url: str) -> dict:
@@ -285,13 +293,16 @@ class ImmoWebScraper:
             return None
 
 
-scraper = ImmoWebScraper()
-        
-scraper.scrape_properties_urls()
+if __name__ == '__main__':
+    scraper = ImmoWebScraper()
+            
+    scraper.scrape_properties_urls()
 
-scraper.scrape_all_properties_data()
+    scraper.scrape_all_properties_data()
 
-print(scraper.properties)
+    print(scraper.properties_df)
 
-# for col in scraper.properties.columns:
-#     print(scraper.properties[col])
+    # for col in scraper.properties_df.columns:
+    #     print(scraper.properties_df[col])
+
+    scraper.pickle_properties_df()
