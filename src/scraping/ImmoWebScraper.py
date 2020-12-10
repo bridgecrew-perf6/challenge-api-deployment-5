@@ -24,7 +24,7 @@ class ImmoWebScraper:
         self.properties_dicts = []
         self.properties = pd.DataFrame(columns=['price', 'type_property', 'subtype_property', 'area',
                                                 'num_rooms', 'postal_code', 'garden', 'garden_area',
-                                                'terrace', 'terrace_area', 'num_facade', 'building_state'
+                                                'terrace', 'terrace_area', 'num_facade', 'building_state',
                                                 'equipped_kitchen', 'furnished', 'open_fire',
                                                 'land_area'])
 
@@ -84,7 +84,7 @@ class ImmoWebScraper:
         for i, property_url in enumerate(self.properties_urls):
             property_dict = ImmoWebScraper.scrape_unique_property_data(property_url)
             self.properties_dicts[i] = property_dict
-            print(i, type(self.properties_dicts[i]))
+            self.properties = self.properties.append(property_dict, ignore_index=True)
     
     @staticmethod
     def scrape_unique_property_data(url: str) -> dict:
@@ -248,13 +248,10 @@ class ImmoWebScraper:
     @staticmethod
     def equipped_kitchen(property_dict: dict) -> int:
         try: 
-            kitchen_type = property_dict['property']['kitchen']['type']
-            if kitchen_type:
-                return 1
-            else:
-                return 0        
+            property_dict['property']['kitchen']['type']
+            return 1
         except:
-            return None
+            return 0
     
     @staticmethod
     def furnished(property_dict: dict) -> int:
@@ -294,6 +291,7 @@ scraper.scrape_properties_urls()
 
 scraper.scrape_all_properties_data()
 
-for i in scraper.properties_dicts:
-    print(i)
-    print('\n\n\n')
+print(scraper.properties)
+
+# for col in scraper.properties.columns:
+#     print(scraper.properties[col])
