@@ -40,9 +40,9 @@ def get_expected_data_format() -> str:
 def alive():
     """'/' route function
     Returns:
-        'alive'
+        "It's Alive !"
     """
-    return 'alive'
+    return "It's Alive !"
 
 @app.route('/predict', methods = ['POST', 'GET'])
 def prediction():
