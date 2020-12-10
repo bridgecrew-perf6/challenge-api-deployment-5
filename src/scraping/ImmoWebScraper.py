@@ -1,32 +1,33 @@
 # to extract all properties urls (needed to handle with javascript)
-from selenium import webdriver 
-
+from selenium import webdriver
 # to access the html content of a single property url
-import requests 
-
+import requests
 # to select parts of an XML or HTML text using CSS or XPath and extract data from it
-from parsel import Selector 
-
-
+from parsel import Selector
 # to access the html content of a single property url
-import requests 
-
+import requests
 # to select parts of an XML or HTML using BeautifulSoup (XPath not supported)
-from bs4 import BeautifulSoup 
-
+from bs4 import BeautifulSoup
 # to use regular expressions
-import re 
-
+import re
 # to build a dictionary form a string
 import json
+
+import pandas as pd
 
 
 class ImmoWebScraper:
 
     def __init__(self):
         # The url of each property that resulted from the search will be stored in the "property_url" list.
-        self.properties_URLs = []
+        self.properties_urls = []
         self.properties_dicts = []
+        self.properties = pd.DataFrame(columns=['price', 'type_property', 'subtype_property', 'area',
+                                                'num_rooms', 'postal_code', 'garden', 'garden_area',
+                                                'terrace', 'terrace_area', 'num_facade', 'building_state'
+                                                'equipped_kitchen', 'furnished', 'open_fire',
+                                                'land_area'])
+
     
     def scrape_properties_urls(self) -> None:
         # We choose to not show the browser GUI to scrape faster
@@ -37,7 +38,9 @@ class ImmoWebScraper:
 
         # Iterate through all result pages (i) and get the url of each of them
         base_url = 'https://www.immoweb.be/en/search/house-and-apartment/for-sale?countries=BE&isALifeAnnuitySale=false&isAnInvestmentProperty=false&isAPublicSale=false&propertySubtypes=BUNGALOW,CHALET,FARMHOUSE,EXCEPTIONAL_PROPERTY,COUNTRY_COTTAGE,CASTLE,TOWN_HOUSE,MANSION,VILLA,MANOR_HOUSE,GROUND_FLOOR,DUPLEX,FLAT_STUDIO,LOFT,KOT,PENTHOUSE,TRIPLEX'
-        num_pages = 333
+        
+        num_pages = 1
+
         for i in range(1, num_pages+1):
             page_num_suffix = '&page=' + str(i)
             url = base_url + page_num_suffix
@@ -58,7 +61,7 @@ class ImmoWebScraper:
             
             # There are approximately 30 houses in each page.
             # Add each page url list to houses_url, like in a matrix.
-            self.properties_URLs.append(page_properties_url)
+            self.properties_urls.append(page_properties_url)
 
             # An implicit wait tells WebDriver to poll the DOM for a
             #  certain amount of time when trying to find any element 
@@ -67,21 +70,24 @@ class ImmoWebScraper:
 
         # Store all houses urls in a csv file
         with open('houses_apartments_urls.csv', 'w') as file:
-            for page_url in self.properties_URLs:
+            for page_url in self.properties_urls:
                 for url in page_url:
                     file.write(url+'\n')
 
         # Flattening of the list of lists of URLs
-        self.properties_URLs = [url for urls_sublist in self.properties_URLs for url in urls_sublist]
+        self.properties_urls = [url for urls_sublist in self.properties_urls for url in urls_sublist]
         
         driver.close()
 
     def scrape_all_properties_data(self) -> None:
-        for property_url in self.properties_URLs:
-            self.properties_dicts += ImmoWebScraper.scrape_unique_property_data(property_url)
+        self.properties_dicts = [{}]*len(self.properties_urls)
+        for i, property_url in enumerate(self.properties_urls):
+            property_dict = ImmoWebScraper.scrape_unique_property_data(property_url)
+            self.properties_dicts[i] = property_dict
+            print(i, type(self.properties_dicts[i]))
     
     @staticmethod
-    def scrape_unique_property_data(url: str) -> None:
+    def scrape_unique_property_data(url: str) -> dict:
         # attribute referring to the set of houses data (stored in a dictionary; see below)
         property_dict = ImmoWebScraper.generate_property_dict(url)
         
@@ -89,20 +95,22 @@ class ImmoWebScraper:
         final_property_dict = {}
         
         # set of attributes collected in the dictionary
-        final_property_dict['type_property'] = ImmoWebScraper.type_property(property_dict)
-        final_property_dict['postal_code'] = ImmoWebScraper.postal_code(property_dict)
-        final_property_dict['subtype'] = ImmoWebScraper.subtype(property_dict)
         final_property_dict['price'] = ImmoWebScraper.price(property_dict)
-        final_property_dict['num_rooms'] = ImmoWebScraper.num_rooms(property_dict)
+        final_property_dict['type_property'] = ImmoWebScraper.type_property(property_dict)
+        final_property_dict['subtype_property'] = ImmoWebScraper.subtype_property(property_dict)
         final_property_dict['area'] = ImmoWebScraper.area(property_dict)
-        final_property_dict['kitchen'] = ImmoWebScraper.kitchen(property_dict)
-        final_property_dict['furnished'] = ImmoWebScraper.furnished(property_dict)
-        final_property_dict['fire'] = ImmoWebScraper.fire(property_dict)
-        final_property_dict['terrace_area'] = ImmoWebScraper.terrace_area(property_dict)
+        final_property_dict['num_rooms'] = ImmoWebScraper.num_rooms(property_dict)
+        final_property_dict['postal_code'] = ImmoWebScraper.postal_code(property_dict)
+        final_property_dict['garden'] = ImmoWebScraper.garden(property_dict)
         final_property_dict['garden_area'] = ImmoWebScraper.garden_area(property_dict)
-        final_property_dict['land_area'] = ImmoWebScraper.land_area(property_dict)
+        final_property_dict['terrace'] = ImmoWebScraper.terrace(property_dict)
+        final_property_dict['terrace_area'] = ImmoWebScraper.terrace_area(property_dict)
         final_property_dict['num_facade'] = ImmoWebScraper.num_facade(property_dict)
         final_property_dict['building_state'] = ImmoWebScraper.building_state(property_dict)
+        final_property_dict['equipped_kitchen'] = ImmoWebScraper.equipped_kitchen(property_dict)
+        final_property_dict['furnished'] = ImmoWebScraper.furnished(property_dict)
+        final_property_dict['open_fire'] = ImmoWebScraper.open_fire(property_dict)
+        final_property_dict['land_area'] = ImmoWebScraper.land_area(property_dict)
 
         return final_property_dict
     
@@ -140,32 +148,32 @@ class ImmoWebScraper:
         except:
             return None
     
-    # Define a method to scrap each property attribute
+    # Define a method to scrap each property attribute    
+    @staticmethod
+    def price(property_dict: dict) -> int:
+        try:
+            return int(property_dict['transaction']['sale']['price'])
+        except:
+            return None
+
     @staticmethod
     def type_property(property_dict: dict) -> str:
         try:
             return property_dict['property']['type']
         except:
-            return None        
-    
-    @staticmethod
-    def postal_code(property_dict: dict) -> int:
-        try:
-            return property_dict['property']['location']['postalCode']
-        except:
             return None
     
     @staticmethod
-    def subtype(property_dict: dict) -> str:
+    def subtype_property(property_dict: dict) -> str:
         try:
             return property_dict['property']['subtype']
         except:
             return None
     
     @staticmethod
-    def price(property_dict: dict) -> int:
+    def area(property_dict: dict) -> int:
         try:
-            return int(property_dict['transaction']['sale']['price'])
+            return int(property_dict['property']['netHabitableSurface'])
         except:
             return None
 
@@ -177,50 +185,17 @@ class ImmoWebScraper:
             return None
     
     @staticmethod
-    def area(property_dict: dict) -> int:
+    def postal_code(property_dict: dict) -> int:
         try:
-            return int(property_dict['property']['netHabitableSurface'])
+            return property_dict['property']['location']['postalCode']
         except:
             return None
     
     @staticmethod
-    def kitchen(property_dict: dict) -> int:
-        try: 
-            kitchen_type = property_dict['property']['kitchen']['type']
-            if kitchen_type:
+    def garden(property_dict: dict) -> int:
+        try:
+            if property_dict['property']['hasGarden'] ==  True:
                 return 1
-            else:
-                return 0        
-        except:
-            return None
-    
-    @staticmethod
-    def furnished(property_dict: dict) -> int:
-        try:
-            furnished = property_dict['transaction']['sale']['isFurnished']
-            if furnished == True:
-                return 1
-            else:
-                return 0
-        except:
-            return None
-    
-    @staticmethod    
-    def fire(property_dict: dict) -> int:
-        try:
-            fire = property_dict['property']['fireplaceExists']
-            if fire == True:
-                return 1 
-            else:
-                return 0                
-        except:
-            return None
-    
-    @staticmethod
-    def terrace_area(property_dict: dict) -> int:
-        try:
-            if property_dict['property']['hasTerrace'] == True:
-                return int(property_dict['property']['terraceSurface'])
             else:
                 return 0
         except:
@@ -237,10 +212,20 @@ class ImmoWebScraper:
             return None
     
     @staticmethod
-    def land_area(property_dict: dict) -> int:
+    def terrace(property_dict: dict) -> int:
         try:
-            if property_dict['property']['land'] != None:
-                return int(property_dict['property']['land']['surface'])
+            if property_dict['property']['hasTerrace'] == True:
+                return 1
+            else:
+                return 0
+        except:
+            return None
+    
+    @staticmethod
+    def terrace_area(property_dict: dict) -> int:
+        try:
+            if property_dict['property']['hasTerrace'] == True:
+                return int(property_dict['property']['terraceSurface'])
             else:
                 return 0
         except:
@@ -259,13 +244,56 @@ class ImmoWebScraper:
             return property_dict['property']['building']['condition']
         except:
             return None
+    
+    @staticmethod
+    def equipped_kitchen(property_dict: dict) -> int:
+        try: 
+            kitchen_type = property_dict['property']['kitchen']['type']
+            if kitchen_type:
+                return 1
+            else:
+                return 0        
+        except:
+            return None
+    
+    @staticmethod
+    def furnished(property_dict: dict) -> int:
+        try:
+            if property_dict['transaction']['sale']['isFurnished'] == True:
+                return 1
+            else:
+                return 0
+        except:
+            return None
+    
+    @staticmethod    
+    def open_fire(property_dict: dict) -> int:
+        try:
+            fire = property_dict['property']['fireplaceExists']
+            if fire == True:
+                return 1 
+            else:
+                return 0                
+        except:
+            return None
+    
+    @staticmethod
+    def land_area(property_dict: dict) -> int:
+        try:
+            if property_dict['property']['land'] != None:
+                return int(property_dict['property']['land']['surface'])
+            else:
+                return 0
+        except:
+            return None
 
 
 scraper = ImmoWebScraper()
         
-# scraper.scrape_properties_urls()
+scraper.scrape_properties_urls()
 
-# d = ImmoWebScraper.scrape_unique_property_data('https://www.immoweb.be/en/classified/flat-studio/for-sale/mont-sur-marchienne/6032/9019331?searchId=5fd1639de5990')
-# print(d)
+scraper.scrape_all_properties_data()
 
-scraper
+for i in scraper.properties_dicts:
+    print(i)
+    print('\n\n\n')
