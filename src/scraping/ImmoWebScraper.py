@@ -24,13 +24,13 @@ class ImmoWebScraper:
     def __init__(self):
         # The url of each property that resulted from the search will be stored in the "property_url" list.
         self.properties_urls = []
-        self.properties_df = pd.DataFrame(columns=['ID', 'price', 'type_property', 'subtype_property',
+        self.properties_df = pd.DataFrame(columns=['immoweb_id', 'price', 'type_property', 'subtype_property',
                                                    'area', 'num_rooms', 'postal_code', 'garden',
                                                    'garden_area', 'terrace', 'terrace_area', 'num_facades',
                                                    'building_state', 'equipped_kitchen', 'furnished',
                                                    'open_fire', 'swimming_pool', 'land_area'])
         self.properties_df_dtypes = {
-            'ID':               int,
+            'immoweb_id':       int,
             'price':            float,
             'type_property':    str,
             'subtype_property': str,
@@ -67,7 +67,7 @@ class ImmoWebScraper:
         # Iterate through all result pages (i) and get the url of each of them
         base_url = 'https://www.immoweb.be/en/search/house-and-apartment/for-sale?countries=BE&isALifeAnnuitySale=false&isAnInvestmentProperty=false&isAPublicSale=false&propertySubtypes=BUNGALOW,CHALET,FARMHOUSE,EXCEPTIONAL_PROPERTY,COUNTRY_COTTAGE,CASTLE,TOWN_HOUSE,MANSION,VILLA,MANOR_HOUSE,GROUND_FLOOR,DUPLEX,FLAT_STUDIO,LOFT,KOT,PENTHOUSE,TRIPLEX'
         
-        num_pages = 350
+        num_pages = 333
 
         for i in range(1, num_pages+1):
             page_num_suffix = '&page=' + str(i)
@@ -125,9 +125,12 @@ class ImmoWebScraper:
         
         # final_property_dict: dictionary containing the extracted features of a particular property
         final_property_dict = {}
+
+        # Immoweb ID is located between last ocurences of '/' and '?' in the URL
+        immoweb_id_str = url[url.rfind('/')+1:url.rfind('?')]
+        final_property_dict['immoweb_id'] = int(immoweb_id_str)
         
         # set of attributes collected in the dictionary
-        final_property_dict['ID'] = ImmoWebScraper.ID(property_dict)
         final_property_dict['price'] = ImmoWebScraper.price(property_dict)
         final_property_dict['type_property'] = ImmoWebScraper.type_property(property_dict)
         final_property_dict['subtype_property'] = ImmoWebScraper.subtype_property(property_dict)
@@ -182,11 +185,6 @@ class ImmoWebScraper:
 
         except:
             return None
-    
-    # Define a method to scrap each property attribute
-    @staticmethod
-    def ID(property_dict: dict) -> int:
-        return int(property_dict['id'])
 
     @staticmethod
     def price(property_dict: dict) -> int:
@@ -369,8 +367,8 @@ class ImmoWebScraper:
         return new_category
     
     def drop_duplicates_and_set_index(self) -> None:
-        self.properties_df.drop_duplicates(subset=['ID'], inplace=True)
-        self.properties_df.set_index('ID', inplace=True)
+        self.properties_df.drop_duplicates(subset=['immoweb_id'], inplace=True)
+        self.properties_df.set_index('immoweb_id', inplace=True)
     
     def remove_wrongly_scraped_data(self) -> None:
         self.properties_df = self.properties_df[(self.properties_df['type_property'] == 'APARTMENT') 
@@ -382,8 +380,18 @@ class ImmoWebScraper:
         self.scrape_all_properties_data()
         self.drop_duplicates_and_set_index()
         self.remove_wrongly_scraped_data()
-        self.properties_df['building_state'] = self.properties_df['building_state'].apply(ImmoWebScraper.recategorize_state)
-        self.properties_df['region'] = self.properties_df['postal_code'].map(ImmoWebScraper.to_region)
+        self.properties_df['building_state'] = self.properties_df['building_state'].apply(ImmoWebScraper.recategorize_state).astype(str)
+        self.properties_df['region'] = self.properties_df['postal_code'].map(ImmoWebScraper.to_region).astype(str)
+
+        # Replacement of 'type_property' by a boolean 'is_house' since only two possible types
+        self.properties_df['is_house'] = self.properties_df['type_property'].map(lambda x: 1 if x == 'HOUSE' else 0).astype(float)
+        self.properties_df.drop('type_property', axis='columns')
+
+        # Reordering of the columns
+        columns=['price', 'is_house', 'subtype_property', 'area', 'num_rooms', 'postal_code', 'region',
+                 'garden', 'garden_area', 'terrace', 'terrace_area', 'num_facades', 'building_state',
+                 'equipped_kitchen', 'furnished', 'open_fire', 'swimming_pool', 'land_area']
+        self.properties_df = self.properties_df[columns]
 
 
 if __name__ == '__main__':
