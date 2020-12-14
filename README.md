@@ -87,7 +87,7 @@ It’s an essential part of using Heroku.
   ```
   * Following the 'container:push' , the container should be released on web to be visible with 
   ```sh
-  heroku container:release web -app <yourapplicationname>
+  heroku container:release web --app <yourapplicationname>
   ```
   * If the container has been released properly, it is available to see using 
   ```sh
