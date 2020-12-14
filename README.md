@@ -2,10 +2,12 @@
 <br />
 <p align="center">
   <a href="https://github.com/jotwo/challenge-api-deployment/">
-    <img src="https://www.flaticon.com/svg/static/icons/svg/262/262815.svg" alt="Logo" width="80" height="80">
+    <img src="assets/immo_logo.svg" alt="Logo" width="150" height="150">
   </a>
 
-  <h3 align="center">Belgian Real Estate Price Prediction API deployment</h3>
+  <h3 align="center">Belgian Real Estate Price Prediction
+  
+   API deployment</h3>
 </p>
 
 
@@ -14,23 +16,12 @@
 <details open="open">
   <summary>Table of Contents</summary>
   <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
+    <li><a href="#about-the-project">About The Project</a></li>
+    <li><a href="#getting-started">Getting Started</a></li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#api">API</a></li>
     <li><a href="#logbook">Logbook</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#authors">Authors</a></li>
   </ol>
 </details>
 
@@ -46,40 +37,73 @@ This project is more about the deployment than it is about the model. For furthe
 
 ### Built With
 
-* []()
-* []()
-* []()
+* [Python](https://www.python.org/)
+* [JSON Schema](https://json-schema.org/)
+* [Numpy](https://numpy.org/)
+* [Pandas](https://pandas.pydata.org/)
+* [Scikit-learn](https://scikit-learn.org/)
+* [Docker](https://www.docker.com/)
+* [Heroku](https://www.heroku.com/)
 
 
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-To get a local copy up and running follow these simple steps.
+To work with this API, you have two options. Either work directly with the API at [this URL](https://predict-keras-api.herokuapp.com/), either build it yourself from the sources and deploy it in a Docker container on Heroku as it is explained in the next subsection.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+You'll need the packages/software described above.
 
 ### Installation
 
-1. Clone the repo
-   ```sh
-   git clone https://github.com/github_username/repo_name.git
-   ```
-2. Install NPM packages
-   ```sh
-   npm install
-   ```
+#### HEROKU
 
+* **Install the Heroku CLI:**
+  * The Heroku Command Line Interface (CLI) makes it easy to create and manage your Heroku apps directly from the terminal.
+It’s an essential part of using Heroku.
+  ```sh
+  sudo snap install --classic heroku
+  ```
+* **Deployment on Heroku:**
+  * Heroku favours Heroku CLI therefore using command line is (ensure the CLI is up-to-date) crucial at this step. 
+  ```sh
+  heroku login
+  ```
+  * After logging in to the respective Heroku account, the container needs to be registered with Heroku using 
+  ```sh
+  heroku container:login
+  ```
+  * Once the container has been registered, a Heroku repo would be required to push the container which could be created : 
+  ```sh
+  heroku create <yourapplicationname>
+  ```
+  **NOTE**: If there is no name stated after '_create_', a random name will be assigned.
+  
+  * When there is an application repo to push the container, it is time to push the container to web : 
+  ```sh
+  heroku container:push web --app <yourapplicationname>
+  ```
+  * Following the 'container:push' , the container should be released on web to be visible with 
+  ```sh
+  heroku container:release web -app <yourapplicationname>
+  ```
+  * If the container has been released properly, it is available to see using 
+  ```sh
+  heroku open --app <yourapplicationname>
+  ```
+  * Logging is also critical especially if the application is experiencing errors : 
+  ```sh
+  heroku logs --tail <yourapplicationname>
+  ```
+
+
+**IMPORTANT NOTE:** While with _localhost_ and _Docker_ it is not mandatory to specify the PORT, if one would like to deploy on Heroku, the port needs to be specified within the 'app.py' to avoid crashes.
 
 ## API
 
-Our REST API is deployed on Heroku, using a Docker container. It is available at [this address](https://link/to/api).
+Our REST API is deployed on Heroku, using a Docker container. It is available at [this address](https://predict-keras-api.herokuapp.com/).
 
 Now, let's describe our simple little API's routes and endpoints and the different HTTP methods that can be used.
 
@@ -107,28 +131,27 @@ The input is given in a JSON notation of this particular format:
 ```json
 {
     "data": {
-            "area": int,
-            "property-type": "APARTMENT" | "HOUSE" | "OTHERS",
-            "rooms-number": int,
-            "zip-code": int,
-            "land-area": Optional[int],
-            "garden": Optional[bool],
-            "garden-area": Optional[int],
-            "equipped-kitchen": Optional[bool],
-            "full-address": Optional[str],
-            "swimmingpool": Optional[bool],
-            "furnished": Optional[bool],
-            "open-fire": Optional[bool],
-            "terrace": Optional[bool],
-            "terrace-area": Optional[int],
-            "facades-number": Optional[int],
-            "building-state": Optional["NEW" | "GOOD" | "TO RENOVATE" | "JUST RENOVATED" | "TO REBUILD"]
+        "property-type": "APARTMENT" | "HOUSE" | "OTHERS",
+        "area": int,
+        "rooms-number": int,
+        "zip-code": int,
+        "garden": Optional[bool],
+        "garden-area": Optional[int],
+        "terrace": Optional[bool],
+        "terrace-area": Optional[int],
+        "facades-number": Optional[int],
+        "building-state": Optional["NEW" | "GOOD" | "TO RENOVATE" | "JUST RENOVATED" | "TO REBUILD"],
+        "equipped-kitchen": Optional[bool],
+        "furnished": Optional[bool],
+        "open-fire": Optional[bool],
+        "swimmingpool": Optional[bool],
+        "land-area": Optional[int],
+        "full-address": Optional[str]
     }
 }
 ```
 
-As you can see, the input is wrapped in an object associated to the attribute `data`. 
-Inside `data`, not all the fields are mandatory. The optional ones are clearly tagged and can be ommitted in a request. The names are pretty much self-explanatory.
+As you can see, the input is wrapped in an object associated to the property `data`. Inside this object, not all the fields are mandatory. The optional ones are clearly tagged and can be ommitted in a request. The names are pretty much self-explanatory.
 
 ##### **Output**
 
@@ -146,23 +169,17 @@ The general output of this endpoint can be described with this JSON notation:
 
 Both attributes `prediction` and `error` are optional and are in fact mutually exclusive: you either receive a prediction _or_ an error message.
 
-* `prediction` itself contains itself two fields: 
+* `prediction` contains itself two fields: 
     * `price`: this key is associated to the price predicted by our model
-    * `r2_score`: this key is associated to the estimate of the model's R² score (coefficient of determination) based on a segregated test set. Its purpose is to estimate the accuracy of the underlying model in general and can be ignored if not needed
+    * `r2_score`: this key is associated to the estimate of the model's R² score (coefficient of determination) based on a segregated test set. Its purpose is to estimate the accuracy of the underlying model in general and can be ignored if not needed.
+    
+    It is sent back along with a HTTP status code `200 OK`.
 
-* `error` itself are telling the API's user that he didn't post the input data as expected and can take two forms:
-    * "features_missing_error": mandatory features were ommitted in the JSON input thus our model can't make a prediction
-    * "formatting_error": general error for formatting issues, more particularily it is because input data was not wrapped inside an object associated with the key `data`
+* `error` warns the client that it didn't post the input data as expected. It could be because of a mandatory attribute missing (such as `zip-code`) or wrong typing (such as floating number for `area` instead of an integer). All these errors are detected using **JSON Schema** validation according to the schema specified in [`assets/input_schema.json`](assets/input_schema.json).
 
-
-
-<!-- Authors -->
-## Authors
-* [**Sravanthi Tarani**](https://github.com/sravanthiai) - *BeCoder* 
-* [**Dilara Parry**](https://github.com/trickydaze/) - *BeCoder* 
-* [**Joachim Kotek**](https://github.com/jotwo/) - *BeCoder* 
-* [**Mikael Dominguez**](https://github.com/wiiki09) - *BeCoder and Dancer* 
-
+    `error` contains a one-line string representation of the validation error that was produced using the JSON Schema package. It is written in human understandable English.
+    
+    It is sent back along with a HTTP status code `400 Bad Request`.
 
 
 <!-- Logbook -->
@@ -171,13 +188,13 @@ Both attributes `prediction` and `error` are optional and are in fact mutually e
 ### Project preparation
 
 
-#### In `model` folder:
+#### In `model` directory:
 
-##### Pre-processing data
+##### Processing original data
 
-`data_cleaning.py` :
+`features_selection.py` :
 
-This class clean the data from the dataset used and create a new dataset that will be the format of your data to fit the model.
+This class prepares the data from the original dataset used and create a new dataset in which all the right features are selected and correctly formatted to fit our regression model
 
 ##### Modeling
 
@@ -186,48 +203,54 @@ This class clean the data from the dataset used and create a new dataset that wi
 This class create a model from the clean dataset, the scaler and the degree we want for the PolynomialFeatures.
 With the model created we can predict the price from estate and give the score of the prediction.
 
-#### Creation of the API
-In your `app.py` file, create a Flask API that contains:
-* A route at `/` that accept:
-    * `GET` request and return "alive" if the server is alive.
-* A route at `/predict` that accept:
-    * `POST` request that receives the data of a house in json format.
-    * `GET` request returning a string to explain what the `POST` expect (data and format).
+#### In `preprocesing` directory:
+
+`cleaning_data.py` :
+
+This module contains utility functions to validate, clean/preprocess and then select the features of an input data point (_i.e._ a property whose price has to be predicted) to feed the model.
+
+#### `app.py`:
+
+This is the main module of our server. It defines a basic REST API of several routes as explained above in the section about the API.
 
 #### Dockerfile to wrap the API
-To deploy your API, you will use Docker.
-* Create a Dockerfile that creates an image with:
+
+
+The way to get our Python code running in a container is to pack it as a Docker image and then run a container based on it.
+
+To generate a Docker image we need to create a Dockerfile which contains instructions needed to build the image. The Dockerfile is then processed by the Docker builder which generates the Docker image. 
+
+* The Dockerfile creates an image with:
     * Ubuntu
-    * Python 3.8
+    * Python
     * Flask
-    * All the other dependencies you will need
-    * All the files of your project in an `/app` folder that you will previously create.
-* Run your `app.py` file with python
+    * Gunicorn
+    * Sklearn
+    * Pandas
+    * Numpy
+    * JSON Schema
+    * Other dependencies needed
+
+For each instruction or command from the Dockerfile, the Docker builder generates an image layer and stacks it upon the previous ones. Therefore, the Docker image resulting from the process is simply a read-only stack of different layers.
 
 #### Deploy Docker image in Heroku
 
-* Part done by Dilara.
-
-   * Account creation.
-   * Sample testing the link between Heroku and Docker.
-   * Logging and solving ``P0RT`` issue.
-
-Heroku will allow you to push your docker container on their server and to start it.
-
-You will find more explanation on the process [here](https://github.com/becodeorg/BXL-Bouman-2.22/tree/master/content/05.deployment/4.Web_Application).
-
-If you have an issue or need more information, the [heroku documentation](https://devcenter.heroku.com/articles/container-registry-and-runtime) is well made!
-
-**WARNING:** [As explained here](https://github.com/becodeorg/BXL-Bouman-2.22/tree/master/content/05.deployment/4.Web_Application), when you deploy on a service like Heroku, you will not want to expose your API on `localhost` because localhost is only reachable from inside the server, also, on some services, the port you will deploy on could be dynamic! In this case, they usually provide you an environment variable that contains the port you can use. (`PORT` on Heroku)
+* **Preparation for Heroku:**
+  * After completing the API part, firstly ```requirements.txt``` file is built with mandatory libraries to run the API. 
+  * In order to wrap the API as a Docker container, Dockerfile is created with required Python version, ``app.py`` file and install the requirements using the ```requirements.txt```.
+  * For Heroku to interpret which server and Flask direction to use, Procfile is created to use _app_ for Flask and _gunicorn_ on the web server.
+  * Lastly, runtime.txt is important to signal Heroku which exact language and which version to use. In our case ```python 3.7.6```.
 
 
+<!-- Authors -->
+## Authors
+* [**Sravanthi Tarani**](https://github.com/sravanthiai) - *BeCoder* 
+* [**Dilara Parry**](https://github.com/trickydaze/) - *BeCoder* 
+* [**Joachim Kotek**](https://github.com/jotwo/) - *BeCoder* 
+* [**Mikael Dominguez**](https://github.com/wiiki09) - *BeCoder and Dancer*
 
-<!-- CONTACT -->
-## Contact
 
 Project Link: [https://github.com/jotwo/challenge-api-deployment](https://github.com/jotwo/challenge-api-deployment)
-
-
 
 
 

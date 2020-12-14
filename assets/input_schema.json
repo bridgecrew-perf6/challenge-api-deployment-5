@@ -1,0 +1,32 @@
+{
+    "$schema": "http://json-schema.org/schema#",
+    "title": "Input JSON Schema",
+    "description": "JSON Schema for input POST request on route /predict",
+    "type": "object",
+    "required": ["data"],
+    "properties": {"data": {"type": "object",
+                            "required": ["property-type", "area", "rooms-number", "zip-code"],
+                            "properties": {"property-type": {"type": "string",
+                                                             "enum": ["HOUSE", "APARTMENT", "OTHERS"]
+                                                            },
+                                            "area": {"type": "integer"},
+                                            "rooms-number": {"type": "integer"},
+                                            "zip-code": {"type": "integer"},
+                                            "garden": {"type": "boolean"},
+                                            "garden-area": {"type": "integer"},
+                                            "terrace": {"type": "boolean"},
+                                            "terrace-area": {"type": "integer"},
+                                            "facades-number": {"type": "integer"},
+                                            "building-state": {"type": "string",
+                                                               "enum": ["NEW", "GOOD", "TO RENOVATE", "JUST RENOVATED", "TO REBUILD"]
+                                                              },
+                                            "equipped-kitchen": {"type": "boolean"},
+                                            "furnished": {"type": "boolean"},
+                                            "open-fire": {"type": "boolean"},
+                                            "swimmingpool": {"type": "boolean"},
+                                            "land-area": {"type": "integer"},
+                                            "full-address": {"type": "string"}
+                                          }        
+                           }
+                  }
+}
