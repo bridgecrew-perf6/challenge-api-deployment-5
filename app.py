@@ -1,5 +1,6 @@
 import os
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 from sklearn.preprocessing import MinMaxScaler, RobustScaler
 
@@ -7,6 +8,8 @@ from src.preprocessing import cleaning_data
 from src.model.modeling import Polynomial_regression_model
 
 app = Flask(__name__)
+CORS(app)
+
 
 def get_expected_data_format() -> str:
     """Returns the expected format of the POST method input
