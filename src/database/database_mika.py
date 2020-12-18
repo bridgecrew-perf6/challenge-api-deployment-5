@@ -136,7 +136,7 @@ estate = db.estate
 
 result = estate.insert(data_dict_records)
 data_db = estate.find()
-print(data_db[:11])
+print(data_db[5])
 
 
 
